@@ -33,29 +33,24 @@ University of California, Santa Barbara \vspace{0.35em}\\
 
 This paper is the first in a three-part series, employing non-parametric discrete mixture modeling to understand and analyze network traffic patterns at the level of individual flows and packets.\flownote
 All three papers employ the same theoretical framework but apply it to different aspects of network traffic analysis: prediction, classification and generation.
-In this paper we first develop the framework and validate it by demonstrating how it allows the prediction of the behaviors of individual flows from the observation of only a handful of packets.
+In this paper we present the framework and demonstrate how to predict detailed behavior of individual flows from the observation of only a handful of initial packets.
 % The following papers will focus on classification of flows according to application type and realistic workload generation.
 
 The fundamental concept underlying this work is that of a \emph{linear representation of network traffic}~\cite{Karpinski08}.
 Linear representations operate on traffic traces at the level of flows.
-The representation function maps a set of flows to point in a vector space;
-the space will typically have many dimensions, and coordinates describe aspects of the  behavior of the flows.
-The function must satisfy a simple linearity condition which we will describe in detail later.
+A representation is a function that maps sets of flows to points in a vector space;
+the space will typically have high dimension, each coordinate describing some aspect of flow behavior.
+The representation must satisfy a simple linearity condition which we will describe in detail later.
 % the sum of the representations of a set of flows is a vector that represents the aggregate behavior of the set of flows.
-The complete behavior of a traffic trace may be expressed as a matrix, where each flow in the trace is described by a given row of the matrix.
+The complete behavior of a traffic trace is expressed as a matrix, where each flow in the trace is represented by a row of the matrix.
 
-Karpinski~\emph{et~al.}~\cite{Karpinski08} observed that the standard simplifications used in network traffic modeling can be viewed as the multiplication of such traffic matrices by  low-rank matrices.
-They went on to demonstrate that such simplifications severely distort important behavioral properties of traffic traces, and to propose matrix factorization as an alternative and preferable means of model reduction.
+% Karpinski~\emph{et~al.}~\cite{Karpinski08} further observed that the simplifications commonly used in traffic modeling correspond to multiplication of traffic representation matrices by low-rank matrices, averaging over rows or columns.
+% They demonstrated experimentally that such simplifications severely distort important behavioral properties of traffic traces;
+% viewing these simplification as low-rank matrix transformations, this is unsurprising:
+% most of the detail of the original traffic behavior is destroyed.
+% It was suggested that matrix factorization provides an alternative and superior means of model reduction.
 
-% A linear representation of traffic is a function in the space of all possible flows\flownote into a vector space, satisfying the following linearity condition:
-% \begin{quote}
-% The sum of the representations of two flows is a vector that represents the aggregate behavior of the two flows.
-% \end{quote}
-% The complete behavior of a network is expressed as a matrix of such vectors, having one row per flow.
-
-% \begin{enumerate}
-%   \item each flow's behavior can be described by various properties, protocol type, port numbers, occurrences of packets sizes, and a sequence of inter-packet intervals.
-% \end{enumerate}
+The key observation of this work is that even real network traces tend to have approximately low-rank representation matrices.
 
 \bibliography{IEEE,references}
 
