@@ -48,17 +48,25 @@ Port numbers, \caps{IP} protocol type, and inter-packet intervals can be handled
 % Examples of flow features are the number of packets of a certain size or the use of a particular port number.
 % The fundamental premise of this work, and of the sequel, is that the representatives of actual flow behaviors can be understood as being sampled from 
 
-The essential observation of this research is that real traffic lies near the union of a small set of low rank subspaces in the representation space.
-This allows us to perform a drastic model reduction on traffic data while preserving most characteristics of the original traffic.
-Moreover, when observable characteristics of flows are separated from features to be predicted, this model reduction is similar to a classical linear regression, and allows us to very simply predict unseen behavior of flows.
-We apply this technique here to directly predict the following characteristics of each flow from observing only a handful of its initial packets:
+The essential observation of this research is that under such representations, real flows lie near the union of a small set of low rank subspaces.
+This property allows us to perform a drastic model reduction on trace traffic patterns while preserving most characteristics of the original traffic.
+Moreover, when observable characteristics of flows are separated from features to be predicted, this model reduction is similar to a classical linear regression:
+it allows us to very simply predict unseen behavior of flows.
+We use this technique to predict the following characteristics of each flow from observing only a handful of its initial packets:
 \begin{enumerate}
   \item the distribution of packets sizes,
   \item the distribution of inter-packet intervals,
   \item the number of packets that will be in the flow.
 \end{enumerate}
 From these properties we can indirectly predict many other properties, including the total duration and data volume.
-% 
+
+At this point it may be wise to address what we mean by prediction.
+We do not attempt to predict the exact number of packets in a specific flow.
+Brief reflection shows that this cannot be done accurately:
+flow behavior is not deterministic---many flows exhibit the same behavior initially but subsequently behave quite differently.
+The best we can do then is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
+
+
 % real-world network traces tend to have approximately low-rank representation matrices despite the potential rank of such matrices being very large.
 % Moreover, most flows' vectors lie on only one of a few even lower rank subspaces.
 % Moreover, the low-rank subspace near which real traffic lies can be decomposed into subspaces of even lower rank, with almost all flows lying in one of these subspaces.
