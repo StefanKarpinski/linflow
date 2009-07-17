@@ -32,17 +32,18 @@ University of California, Santa Barbara \vspace{0.35em}\\
 \newfootnote{\flownote}{We use the common definition of a \textit{flow} as a sequence of packets sharing the same  ``5-tuple'': \caps{IP} protocol type, source and destination nodes, and \caps{TCP/UDP} port numbers.}
 
 This paper is the first in a three-part series, employing non-parametric discrete mixture modeling to understand and analyze network traffic patterns at the level of individual flows and packets.\flownote
-All three papers employ the same theoretical framework but apply it to different aspects of network traffic analysis: prediction, classification and generation.
-In this paper we present the framework and demonstrate how to predict detailed behavior of individual flows from the observation of only a handful of initial packets.
+All three papers employ the same theoretical framework but investigate different fundamental applications of traffic modeling:
+prediction, classification and generation.
+In this paper we first present the framework and then demonstrate how it can predict detailed behavior of individual flows from the observation of only a handful of initial packets.
 % The following papers will focus on classification of flows according to application type and realistic workload generation.
 
-The fundamental concept underlying this work is that of a \emph{linear representation of network traffic}~\cite{Karpinski08}.
-Linear representations operate on traffic traces at the level of flows.
-A representation is a function that maps sets of flows to points in a vector space;
-the space will typically have high dimension, each coordinate describing some aspect of flow behavior.
-The representation must satisfy a simple linearity condition which we will describe in detail later.
+The fundamental concept underlying these works is \emph{linear representation of network traffic}~\cite{Karpinski08}.
+A linear representation is a function that maps sets of flows to points in a vector space;
+each dimension of the representation describes some aspect of flow behavior.
+The representation must also satisfy a simple linearity condition which we will describe in detail later.
 % the sum of the representations of a set of flows is a vector that represents the aggregate behavior of the set of flows.
-The complete behavior of a traffic trace is expressed as a matrix, where each flow in the trace is represented by a row of the matrix.
+An entire traffic trace may be represented as a matrix:
+each flow is mapped to a row of the matrix.
 
 % Karpinski~\emph{et~al.}~\cite{Karpinski08} further observed that the simplifications commonly used in traffic modeling correspond to multiplication of traffic representation matrices by low-rank matrices, averaging over rows or columns.
 % They demonstrated experimentally that such simplifications severely distort important behavioral properties of traffic traces;
@@ -50,7 +51,7 @@ The complete behavior of a traffic trace is expressed as a matrix, where each fl
 % most of the detail of the original traffic behavior is destroyed.
 % It was suggested that matrix factorization provides an alternative and superior means of model reduction.
 
-The key observation of this work is that even real network traces tend to have approximately low-rank representation matrices.
+The key observation of this work is that real-world network traces tend to have approximately low-rank representation matrices.
 
 \bibliography{IEEE,references}
 
