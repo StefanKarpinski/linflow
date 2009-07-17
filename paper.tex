@@ -51,7 +51,7 @@ Port numbers, \caps{IP} protocol type, and inter-packet intervals can be handled
 The essential observation of this research is that under such representations, real flows lie near the union of a small set of low rank subspaces.
 This property allows us to perform a drastic model reduction on trace traffic patterns while preserving most characteristics of the original traffic.
 Moreover, when observable characteristics of flows are separated from features to be predicted, this model reduction is similar to a classical linear regression:
-it allows us to very simply predict unseen behavior of flows.
+it allows us to use a least squares optimization on observed features to predict behavior.
 We use this technique to predict the following characteristics of each flow from observing only a handful of its initial packets:
 \begin{enumerate}
   \item the distribution of packets sizes,
@@ -64,9 +64,9 @@ At this point it may be wise to address what we mean by prediction.
 Brief reflection shows that one cannot hope to accurately predict the exact behavior of flows:
 flow behavior is nondeterministic---flows may exhibit the same initial behavior but subsequently behave quite differently.
 The best we can do then is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
-When compared with a specific outcome, such a prediction cannot be said to be ``wrong or right.''
+When compared with a specific outcome, such a prediction cannot be said to be ``wrong'' or ``right.''
 How then can one measure the quality of a predicted distribution of outcomes?
-This is a subtle and difficult issue is central to our evaluation methodology.
+This subtle and difficult issue is central to our evaluation methodology.
 
 % real-world network traces tend to have approximately low-rank representation matrices despite the potential rank of such matrices being very large.
 % Moreover, most flows' vectors lie on only one of a few even lower rank subspaces.
