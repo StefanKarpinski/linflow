@@ -61,9 +61,8 @@ We use this technique to predict the following characteristics of each flow from
 From these properties we can indirectly predict many other properties, including the total duration and data volume.
 
 At this point it may be wise to address what we mean by prediction.
-We do not attempt to predict the exact number of packets in a specific flow.
-Brief reflection shows that this cannot be done accurately:
-flow behavior is not deterministic---many flows exhibit the same behavior initially but subsequently behave quite differently.
+Brief reflection shows that one cannot hope to accurately predict the exact behavior of flows:
+flow behavior is nondeterministic---flows may exhibit the same initial behavior but subsequently behave quite differently.
 The best we can do then is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
 
 
