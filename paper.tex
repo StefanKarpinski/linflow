@@ -29,7 +29,7 @@ University of California, Santa Barbara \vspace{0.35em}\\
 \begin{document}
 \maketitle
 
-\newfootnote{\flownote}{We use the common definition of a \textit{flow} as a sequence of packets sharing the same  ``5-tuple'': \caps{IP} protocol type, source and destination nodes, and \caps{TCP/UDP} port numbers.}
+\newfootnote{\flownote}{We use the common definition of a \textit{flow} as a sequence of packets sharing the same  ``5-tuple'': IP protocol type, source and destination nodes, and TCP/UDP port numbers.}
 
 This paper is the first in a three-part series, employing non-parametric discrete mixture modeling to understand and analyze network traffic patterns at the level of individual flows and packets.\flownote
 All three papers employ the same theoretical framework but investigate different fundamental applications of traffic modeling:
@@ -64,7 +64,9 @@ At this point it may be wise to address what we mean by prediction.
 Brief reflection shows that one cannot hope to accurately predict the exact behavior of flows:
 flow behavior is nondeterministic---flows may exhibit the same initial behavior but subsequently behave quite differently.
 The best we can do then is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
-
+When compared with a specific outcome, such a prediction cannot be said to be ``wrong or right.''
+How then can one measure the quality of a predicted distribution of outcomes?
+This is a subtle and difficult issue is central to our evaluation methodology.
 
 % real-world network traces tend to have approximately low-rank representation matrices despite the potential rank of such matrices being very large.
 % Moreover, most flows' vectors lie on only one of a few even lower rank subspaces.
