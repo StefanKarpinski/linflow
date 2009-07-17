@@ -42,16 +42,28 @@ A linear representation is a function that maps sets of flows to points in a vec
 each dimension of the representation describes some aspect of flow behavior.
 The representation must also satisfy a simple linearity condition which we will describe in detail later.
 % the sum of the representations of a set of flows is a vector that represents the aggregate behavior of the set of flows.
-An entire traffic trace may be represented as a matrix:
-each flow is mapped to a row of the matrix.
+An entire traffic trace may be represented as a matrix where each row is the linear representation of a flow in the trace.
+We restrict our consideration to a particularly natural and powerful class of representations whose coordinates describe the frequencies of flow features.
+For example, let there be a dimension for each packet size up to 1500.
+Each coordinate indicates the number of packets in a set of flows of that size.
+\caps{IP} protocol type, port numbers, and inter-packet intervals can be handled similarly.
+% Examples of flow features are the number of packets of a certain size or the use of a particular port number.
+% The fundamental premise of this work, and of the sequel, is that the representatives of actual flow behaviors can be understood as being sampled from 
+
+Our key observation is that real-world network traces tend to have approximately low-rank representation matrices despite the potential rank of such matrices being very large.
+Moreover, most flows' vectors lie on only one of a few even lower rank subspaces.
+Real traffic lies near the union of a small set of very low rank subspaces in the huge potential space of representations.
+Moreover, the low-rank subspace near which real traffic lies can be decomposed into subspaces of even lower rank, with almost all flows lying in one of these subspaces.
+Typically, these smaller subspaces are one-dimensional, but in some cases they may have up to a dozen dimensions.
+
+% the vast majority of observed flow behaviors in any given trace lie in one of a handful low-rank subspaces.
+% These subspaces are mostly of rank one, but a few have dimensions as high as ten.
 
 % Karpinski~\emph{et~al.}~\cite{Karpinski08} further observed that the simplifications commonly used in traffic modeling correspond to multiplication of traffic representation matrices by low-rank matrices, averaging over rows or columns.
 % They demonstrated experimentally that such simplifications severely distort important behavioral properties of traffic traces;
 % viewing these simplification as low-rank matrix transformations, this is unsurprising:
 % most of the detail of the original traffic behavior is destroyed.
 % It was suggested that matrix factorization provides an alternative and superior means of model reduction.
-
-The key observation of this work is that real-world network traces tend to have approximately low-rank representation matrices.
 
 \bibliography{IEEE,references}
 
