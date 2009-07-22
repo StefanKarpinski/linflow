@@ -29,7 +29,7 @@ University of California, Santa Barbara \vspace{0.35em}\\
 \begin{document}
 \maketitle
 
-\section{Introduction}
+\section{Introduction}\sec{introduction}
 
 \newfootnote{\flownote}{We use the common definition of a \textit{flow} as a sequence of packets sharing the same  ``5-tuple'': IP protocol type, source and destination nodes, and TCP/UDP port numbers.}
 
@@ -85,18 +85,28 @@ This subtle and difficult issue is central to our evaluation methodology.
 % most of the detail of the original traffic behavior is destroyed.
 % It was suggested that matrix factorization provides an alternative and superior means of model reduction.
 
-\section{Background \& Motivation}
+\section{Background \& Motivation}\sec{background}\sec{motivation}
 
-The most fundamental tool in the investigation of linear structure in high dimensions is the singular value decomposition (\caps{SVD}).
-This matrix decomposition can be applied to any real matrix and factors it into a product of three matrices:
+The most fundamental tool for investigating linear structure in high dimensions is the singular value decomposition (\caps{SVD}).
+This matrix decomposition can be applied to any real matrix and factors it into a product of three real matrices:
 \begin{align}
-  X = US\trans{V}
+  X = US\trans{V}.
 \end{align}
-where $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of decreasing nonnegative value.
+Here $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of decreasing nonnegative value.
 Among the useful properties of this factorization, if all but the first $k$ diagonal entries of $S$ are zeroed out, the product $US_k\trans{V}$ is the best rank-$k$ approximation of $X$ under the Frobenius matrix norm.
-The rows of $US_k$ can thus be viewed as an optimal $k$-dimensional simplification of the rows of $X$ in the new coordinate system given by the columns of $V$.
+The rows of $US_k$ can thus be viewed as an optimal $k$-dimensional reduced model of the rows of $X$, with a new coordinate system given by the columns of $V$.
 
-\begin{figure}[!b]
+We can visualize the $k$-dimensional approximate structure of $X$ in $k$ dimensions using the coordinates of $US_k$.
+However, the most significant feature of any vector in this representation is its magnitude.
+We are more interested in the direction vectors than their direction:
+points with the same direction lie in the same one-dimensional subspace.
+To visualize direction while eliminating distance, we project all data points radially onto the hyperplane in which all points have coordinates summing to unity.\footnote{We could normalize the vectors to unit length, but then our projection would be spherical, artificially introducing curvature into our visualization.}
+% Then we simply scatter-plot various pairs of dimensions of the resulting data.
+\Figure{svd} shows scatter plots of the most significant two projected \caps{SVD} coordinates for four different traces.
+The original coordinates of this data encode the packet size distributions, inter-packet interval distributions, \caps{IP} protocol numbers, and port numbers for a sample of 5000 flows for each trace.
+The exact details of how the linear representation encodes these features will be discussed in \Section{methodology}.
+
+\begin{figure}[!t]
 \vspace{0.5em}
 \begin{center}
 \subfloat[IETF 60]{\includegraphics[width=1.6in]{svd/ie60}}
@@ -111,13 +121,13 @@ The rows of $US_k$ can thus be viewed as an optimal $k$-dimensional simplificati
 
 % The most direct way to demonstrate the motivating insight of this research is with pictures.
 
-\section{Methodology}
+\section{Methodology}\sec{methodology}
 
-\section{Results}
+\section{Results}\sec{results}
 
-\section{Discussion}
+\section{Discussion}\sec{discussion}
 
-\section{Conclusions}
+\section{Conclusions}\sec{conclusions}
 
 \bibliography{IEEE,references}
 
