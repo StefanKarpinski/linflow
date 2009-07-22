@@ -109,17 +109,21 @@ The exact details of how the linear representation encodes these features will b
 \begin{figure}[!t]
 \vspace{0.5em}
 \begin{center}
-\subfloat[IETF 60]{\includegraphics[width=1.6in]{svd/ie60}}
-\subfloat[IETF 67]{\includegraphics[width=1.6in]{svd/ie67}}
-\subfloat[SIGCOMM 2004]{\includegraphics[width=1.6in]{svd/sc04}}
-\subfloat[UCSD]{\includegraphics[width=1.6in]{svd/ucsd}}
+\subfloat[\footnotesize{IETF 60}]{\includegraphics[width=1.6in]{svd/ie60}}
+\subfloat[\footnotesize{IETF 67}]{\includegraphics[width=1.6in]{svd/ie67}}
+\subfloat[\footnotesize{SIGCOMM 2004}]{\includegraphics[width=1.6in]{svd/sc04}}
+\subfloat[\footnotesize{UCSD}]{\includegraphics[width=1.6in]{svd/ucsd}}
 \caption{SVD scatter plots for various traces.} 
 \fig{svd}
 \end{center}
 \vspace{-0.85em}
 \end{figure}
 
-% The most direct way to demonstrate the motivating insight of this research is with pictures.
+Clearly visible in \Figure{svd} is linear structure:
+points are heavily concentrated on low-dimensional subspaces.
+Because of the projection step of our process, points concentrated along a one-dimensional subspace appear as dark ``spots'' where many points have been plotted;
+points concentrated along a two-dimensional subspace appear as lines;
+points falling along subspaces of three or more dimensions appear as ``smears.''
 
 \section{Methodology}\sec{methodology}
 
