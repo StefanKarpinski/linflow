@@ -107,24 +107,27 @@ To visualize direction while eliminating distance, we project all data points on
 The original data encodes packet size distributions, inter-packet interval distributions, \caps{IP} protocol numbers, and port numbers for a sample of 5000 flows from each trace.
 The exact details of how the linear representation encodes these features will be discussed in \Section{methodology}.
 
-\begin{figure}[!t]
+\begin{figure*}[!t]
 \vspace{0.5em}
 \begin{center}
-\subfloat[\footnotesize{IETF 60}]{\includegraphics[width=1.6in]{svd/ie60}}
-\subfloat[\footnotesize{IETF 67}]{\includegraphics[width=1.6in]{svd/ie67}}
-\subfloat[\footnotesize{SIGCOMM 2004}]{\includegraphics[width=1.6in]{svd/sc04}}
-\subfloat[\footnotesize{UCSD}]{\includegraphics[width=1.6in]{svd/ucsd}}
-\caption{SVD scatter plots for various traffic traces.} 
+\subfloat[\footnotesize{DARTMOUTH}]{\includegraphics[width=1.15in]{svd/dart}}
+\subfloat[\footnotesize{IETF 60}]{\includegraphics[width=1.15in]{svd/ie60}}
+\subfloat[\footnotesize{IETF 67}]{\includegraphics[width=1.15in]{svd/ie67}}
+\subfloat[\footnotesize{SIGCOMM 2001}]{\includegraphics[width=1.15in]{svd/sc01}}
+\subfloat[\footnotesize{SIGCOMM 2004}]{\includegraphics[width=1.15in]{svd/sc04}}
+\subfloat[\footnotesize{UCSD}]{\includegraphics[width=1.15in]{svd/ucsd}}
+\caption{SVD flow-behavior scatter plots for the six network traffic traces considered in this paper.} 
 \fig{svd}
 \end{center}
 \vspace{-2em}
-\end{figure}
+\end{figure*}
 
 Linear structure is clearly visible in \Figure{svd}:
 the points are heavily concentrated on low-dimensional subspaces.
 Because of the projection step of our process, points concentrated along a one-dimensional subspace appear as dark ``spots'' where many points have been plotted;
 points concentrated along a two-dimensional subspace appear as lines;
 points falling near subspaces of more dimensions appear as ``smears.''
+% There is a smattering of outliers, not especially near such structures.
 
 \section{Methodology}\sec{methodology}
 
