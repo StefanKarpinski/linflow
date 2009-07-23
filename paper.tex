@@ -137,7 +137,7 @@ This matrix decomposition can be applied to any real matrix, factoring it into a
 \begin{align}
   X = US\trans{V}.
 \end{align}
-Here $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of nonincreasing nonnegative value.
+$U$ and $V$ are orthogonal and $S$ is diagonal, with entries of nonincreasing nonnegative value.
 Among the useful properties of this factorization, is that the first $k$ columns of $US$ are an optimal $k$-dimensional reduced model of $X$.\,\svdnote
 This property allows us to visualize the structure of $X$ using initial columns of $US$.
 However, we are interested only interested in direction since
@@ -148,11 +148,11 @@ To visualize direction while eliminating distance, we project all data points on
 The figures show scatter plots of the most significant two projected \caps{SVD} coordinates for a matrix of 5000 sample flows from each trace.
 % The original data encodes packet size distributions, inter-packet interval distributions, \caps{IP} protocol numbers, and port numbers for a sample of 5000 flows from each trace.
 % The exact details of how the linear representation encodes these features will be discussed in \Section{methodology}.
-Linear structure is clearly visible in every one:
+Linear structure is visible in all six:
 flow behaviors are heavily concentrated near low-dimensional subspaces.
 Points concentrated along a one-dimensional subspace appear as dark ``spots'' where many points have been plotted;
-points concentrated along a two-dimensional subspace appear as lines;
-points falling near subspaces of more dimensions appear as ``smears.''
+points concentrated near two-dimensional subspaces appear as lines;
+points falling along higher subspaces appear as ``smears.''
 % There is a smattering of outliers, not especially near such structures.
 
 \section{Methodology}\sec{methodology}
