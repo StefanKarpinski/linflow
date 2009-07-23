@@ -87,6 +87,28 @@ This subtle and difficult issue is central to our evaluation methodology.
 
 \section{Background \& Motivation}\sec{background}\sec{motivation}
 
+\begin{figure*}[t]
+\begin{center}
+\subfloat[\footnotesize{DARTMOUTH}]{\includegraphics[width=1.15in]{svd/dart}}
+\subfloat[\footnotesize{IETF 60}]{\includegraphics[width=1.15in]{svd/ie60}}
+\subfloat[\footnotesize{IETF 67}]{\includegraphics[width=1.15in]{svd/ie67}}
+\subfloat[\footnotesize{SIGCOMM 2001}]{\includegraphics[width=1.15in]{svd/sc01}}
+\subfloat[\footnotesize{SIGCOMM 2004}]{\includegraphics[width=1.15in]{svd/sc04}}
+\subfloat[\footnotesize{UCSD}]{\includegraphics[width=1.15in]{svd/ucsd}}
+\caption{SVD flow-behavior scatter plots for the six network traffic traces considered in this paper.} 
+\fig{svd}
+\end{center}
+\vspace{-2em}
+\end{figure*}
+
+A linear representation, as defined by Karpinski~\emph{et~al.}~\cite{Karpinski08}, maps sets of flows into a vector space such that union of sets becomes summation in the vector space:
+\begin{align}
+  \Phi(s_1 \union s_2) = \Phi(s_1) + \Phi(s_2).
+\end{align}
+The representation function, $\Phi$, should map each set of flows to a vector which in some sense describes their collective behavior.
+For example: let $\Phi(s) \in \R^1$ be the number of packets in all the flows in as set $s$.
+Since the number of total packets in the union of two sets of flows is the sum of the number in each individually, this representation is linear.
+
 \newfootnote{\svdnote}{More precisely, the product of the first $k$ columns of $U$ with the first $k$ rows of $\trans{V}$ is a Frobenius-optimal rank-$k$ approximation of $X$.}
 
 \newfootnote{\projectionnote}{We could normalize the vectors to unit length, but then our projection would be spherical, artificially introducing curvature into our visualization.}
@@ -106,21 +128,6 @@ To visualize direction while eliminating distance, we project all data points on
 \Figure{svd} shows scatter plots of the most significant two projected \caps{SVD} coordinates for four different traces of network traffic.
 The original data encodes packet size distributions, inter-packet interval distributions, \caps{IP} protocol numbers, and port numbers for a sample of 5000 flows from each trace.
 The exact details of how the linear representation encodes these features will be discussed in \Section{methodology}.
-
-\begin{figure*}[!t]
-\vspace{0.5em}
-\begin{center}
-\subfloat[\footnotesize{DARTMOUTH}]{\includegraphics[width=1.15in]{svd/dart}}
-\subfloat[\footnotesize{IETF 60}]{\includegraphics[width=1.15in]{svd/ie60}}
-\subfloat[\footnotesize{IETF 67}]{\includegraphics[width=1.15in]{svd/ie67}}
-\subfloat[\footnotesize{SIGCOMM 2001}]{\includegraphics[width=1.15in]{svd/sc01}}
-\subfloat[\footnotesize{SIGCOMM 2004}]{\includegraphics[width=1.15in]{svd/sc04}}
-\subfloat[\footnotesize{UCSD}]{\includegraphics[width=1.15in]{svd/ucsd}}
-\caption{SVD flow-behavior scatter plots for the six network traffic traces considered in this paper.} 
-\fig{svd}
-\end{center}
-\vspace{-2em}
-\end{figure*}
 
 Linear structure is clearly visible in \Figure{svd}:
 the points are heavily concentrated on low-dimensional subspaces.
