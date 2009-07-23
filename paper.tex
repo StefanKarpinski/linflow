@@ -102,27 +102,27 @@ This subtle and difficult issue is central to our evaluation methodology.
 \vspace{-2em}
 \end{figure*}
 
-A linear representation, as defined by Karpinski~\emph{et~al.}~\cite{Karpinski08}, maps sets of flows into a vector space such that union of sets becomes summation in the vector space:
+A linear representation, as proposed by Karpinski~\emph{et~al.}~\cite{Karpinski08}, maps sets of flows into a vector space such that disjoint union of sets becomes addition in the vector space:
 \begin{align}
-  \Phi(s_1 \union s_2) = \Phi(s_1) + \Phi(s_2).
+  \Phi(s_1 \disunion s_2) = \Phi(s_1) + \Phi(s_2).
 \end{align}
-The representation function, $\Phi$, should map each set of flows to a vector which in some sense describes their collective behavior.
-For example: let $\Phi(s) \in \R^1$ be the number of packets in all the flows in the set $s$.
-Since the number of total packets in the union of two sets of flows is the sum of the number in each individually, this representation is linear.
+The representation function should map each set of flows to a vector that in some sense describes their collective behavior.
+For example: let $\Phi(s) \in \R^1$ be the number of packets in the flows in $s$.
+Since the number of packets in the disjoint union of sets of flows is the sum of the number in each set individually, this representation is linear.
 Given two representations, their direct sum is readily seen to also be a linear representation:
 \begin{align}
   \Phi(s) = \Phi_1(s) \directsum \Phi_2(s).
 \end{align}
 
 A particularly powerful class of linear representations describes the behavior of collections of flows using histogram vectors to count the frequencies of various features.
-As mentioned before, a 1500-dimensional vector can be used to count the frequency of all possible packets sizes from a single byte up to the typical \caps{MTU} of 1500 bytes.
-In this representation, $\Phi(s) \in \R^{1500}$ has as its $i$th entry the number of packets in $s$ of size $i$.
-Since \caps{IP} protocol types range from 0 to 255, the frequency of types in a set of flows can be represented in 256 dimensions.
-The representation details for port numbers and inter-packet intervals are described detail in \Section{methodology}.
+A 1500-dimensional vector can be used to count the frequency of packet sizes seen, from one byte up to the typical \caps{MTU} of 1500 bytes.
+In this representation, $\Phi(s)$ has as its $i$th entry the number of packets in $s$ of size $i$.
+Since \caps{IP} protocols range from 0 to 255, the frequency of types in a set of flows can be represented in 256 dimensions.
+Histogram representations for port numbers and inter-packet intervals are detailed in \Section{methodology}.
 % Source and destination port numbers can similarly be represented using 65536-dimensional vectors.
 % For practical purposes, however, this is too large a vector space, so we represent port numbers in 1000-dimensions, and reduce port numbers modulo 1000.
 % Finally, we represent inter-packet intervals by first quantizing into 1500 bins of interval values as described by Karpinski~\emph{et~al.} and counting the number of intervals in flows occurring in each bin.
-The representation we consider here is a direct sum of such histogram representations.
+The representation we use is a direct sum of these histogram representations.
 The combination is a representation in 5256 dimensions.
 An entire trace is represented as a matrix of such representation vectors---one flow per row.
 This paper explores the linear structure of such matrices.
@@ -131,25 +131,26 @@ This paper explores the linear structure of such matrices.
 
 \newfootnote{\projectionnote}{We could normalize the vectors to unit length, but then our projection would be spherical, artificially introducing curvature into our visualization.}
 
-The foremost tool for investigating linear structure in high dimensions is the singular value decomposition (\caps{SVD}).
-This matrix decomposition can be applied to any real matrix and factors it into a product of three real matrices:
+To see the linear structure of these representation matrices, we apply one of the most powerful tools of linear algebra:
+the singular value decomposition (\caps{SVD}).
+This matrix decomposition can be applied to any real matrix, factoring it into a product of three real matrices:
 \begin{align}
   X = US\trans{V}.
 \end{align}
-Here $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of decreasing nonnegative value.
-Among the useful properties of this factorization, is that the first $k$ columns of $US$ are an optimal $k$-dimensional reduced model of the rows of $X$, in a new coordinate system given by the first $k$ columns of $V$\!.\,\svdnote
-
-This property allows us to visualize the approximate structure of $X$ using initial columns of $US$.
-We are, however, for the moment only interested in direction not magnitude:
-vectors with the same direction lie in the same one-dimensional subspace.
+Here $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of nonincreasing nonnegative value.
+Among the useful properties of this factorization, is that the first $k$ columns of $US$ are an optimal $k$-dimensional reduced model of $X$.\,\svdnote
+This property allows us to visualize the structure of $X$ using initial columns of $US$.
+However, we are interested only interested in direction since
+vectors differing only by magnitude lie in the same one-dimensional subspace.
 To visualize direction while eliminating distance, we project all data points onto the unit-sum hyperplane through the origin.\projectionnote
-\Figure{svd} shows scatter plots of the most significant two projected \caps{SVD} coordinates for four different traces of network traffic.
-The original data encodes packet size distributions, inter-packet interval distributions, \caps{IP} protocol numbers, and port numbers for a sample of 5000 flows from each trace.
-The exact details of how the linear representation encodes these features will be discussed in \Section{methodology}.
 
-Linear structure is clearly visible in \Figure{svd}:
-the points are heavily concentrated on low-dimensional subspaces.
-Because of the projection step of our process, points concentrated along a one-dimensional subspace appear as dark ``spots'' where many points have been plotted;
+\Figure{svd} illustrates the results of applying \caps{SVD} dimension reduction to sample matrices of six different traffic traces.
+The figures show scatter plots of the most significant two projected \caps{SVD} coordinates for a matrix of 5000 sample flows from each trace.
+% The original data encodes packet size distributions, inter-packet interval distributions, \caps{IP} protocol numbers, and port numbers for a sample of 5000 flows from each trace.
+% The exact details of how the linear representation encodes these features will be discussed in \Section{methodology}.
+Linear structure is clearly visible in every one:
+flow behaviors are heavily concentrated near low-dimensional subspaces.
+Points concentrated along a one-dimensional subspace appear as dark ``spots'' where many points have been plotted;
 points concentrated along a two-dimensional subspace appear as lines;
 points falling near subspaces of more dimensions appear as ``smears.''
 % There is a smattering of outliers, not especially near such structures.
