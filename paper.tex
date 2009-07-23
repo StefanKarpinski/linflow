@@ -135,11 +135,11 @@ To see the linear structure of these representation matrices, we apply one of th
 the singular value decomposition (\caps{SVD}).
 This matrix decomposition can be applied to any real matrix, factoring it into a product of three real matrices:
 \begin{align}
-  X = US\trans{V}.
+  X = U\!S\trans{V}.
 \end{align}
 $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of nonincreasing nonnegative value.
-Among the useful properties of this factorization, is that the first $k$ columns of $US$ are an optimal $k$-dimensional reduced model of $X$.\,\svdnote
-This property allows us to visualize the structure of $X$ using initial columns of $US$.
+Among the useful properties of this factorization, is that the first $k$ columns of $U\!S$ are an optimal $k$-dimensional reduced model of $X$.\,\svdnote
+This property allows us to visualize the structure of $X$ using initial columns of $U\!S$.
 However, we are interested only interested in direction since
 vectors differing only by magnitude lie in the same one-dimensional subspace.
 To visualize direction while eliminating distance, we project all data points onto the unit-sum hyperplane through the origin.\projectionnote
