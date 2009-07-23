@@ -138,7 +138,7 @@ This matrix decomposition can be applied to any real matrix, factoring it into a
   X = U\!S\trans{V}.
 \end{align}
 $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of nonincreasing nonnegative value.
-Among the useful properties of this factorization, is that the first $k$ columns of $U\!S$ are an optimal $k$-dimensional reduced model of $X$.\,\svdnote
+Among the useful properties of this factorization, is that the first $k$ columns of $U\!S$ are an optimal $k$-dimensional reduced model of $X$.\svdnote
 This property allows us to visualize the structure of $X$ using initial columns of $U\!S$.
 However, we are interested only interested in direction since
 vectors differing only by magnitude lie in the same one-dimensional subspace.
@@ -154,6 +154,15 @@ Points concentrated along a one-dimensional subspace appear as dark ``spots'' wh
 points concentrated near two-dimensional subspaces appear as lines;
 points falling along higher subspaces appear as ``smears.''
 % There is a smattering of outliers, not especially near such structures.
+
+The presence of linear structure in the matrix representations of several independent traffic traces immediately raises two significant questions.
+The more philosophical question is \emph{Why does this linear structure exist?}
+The more practical question is \emph{How can we exploit this structure?}
+Neither question can be answered fully in a single paper.
+In what follows, we provide some insight into the first question, and use that insight to predict the behavior of individual flows from the observation of only a few initial packets.
+
+\vfill
+\break
 
 \section{Methodology}\sec{methodology}
 
