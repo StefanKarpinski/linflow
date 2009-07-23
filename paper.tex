@@ -87,21 +87,22 @@ This subtle and difficult issue is central to our evaluation methodology.
 
 \section{Background \& Motivation}\sec{background}\sec{motivation}
 
+\newfootnote{\svdnote}{More precisely, the product of the first $k$ columns of $U$ with the first $k$ rows of $\trans{V}$ is a Frobenius-optimal rank-$k$ approximation of $X$.}
+
+\newfootnote{\projectionnote}{We could normalize the vectors to unit length, but then our projection would be spherical, artificially introducing curvature into our visualization.}
+
 The foremost tool for investigating linear structure in high dimensions is the singular value decomposition (\caps{SVD}).
 This matrix decomposition can be applied to any real matrix and factors it into a product of three real matrices:
 \begin{align}
   X = US\trans{V}.
 \end{align}
 Here $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of decreasing nonnegative value.
-Among the useful properties of this factorization, is that the product $US_k\trans{V}$ is the best rank-$k$ approximation of $X$ under the Frobenius matrix norm, where $S_k$ is the matrix $S$ with all but the first $k$ diagonal entries zeroed out.
-The $k$ initial coordinates of the rows of $US_k$ can thus be viewed as an optimal $k$-dimensional reduced model of the rows of $X$, with a new coordinate system given by the columns of $V$.
+Among the useful properties of this factorization, is that the first $k$ columns of $US$ are an optimal $k$-dimensional reduced model of the rows of $X$, in a new coordinate system given by the first $k$ columns of $V$\!.\,\svdnote
 
-We can visualize the $k$-dimensional approximate structure of $X$ in $k$ dimensions using the coordinates of $US_k$.
-However, the most significant feature of any vector in this representation is its magnitude.
-We are more interested in the direction vectors than their direction:
+This property allows us to visualize the approximate structure of $X$ using initial columns of $US$.
+However, the most significant feature of any vector in this representation is its magnitude, while we are interested in the direction of vectors:
 points with the same direction lie in the same one-dimensional subspace.
-To visualize direction while eliminating distance, we project all data points radially onto the hyperplane in which all points have coordinates summing to unity.\footnote{We could normalize the vectors to unit length, but then our projection would be spherical, artificially introducing curvature into our visualization.}
-% Then we simply scatter-plot various pairs of dimensions of the resulting data.
+To visualize direction while eliminating distance, we project all data points radially onto the hyperplane in which all points have coordinates summing to unity.\projectionnote
 \Figure{svd} shows scatter plots of the most significant two projected \caps{SVD} coordinates for four different traces.
 The original coordinates of this data encode the packet size distributions, inter-packet interval distributions, \caps{IP} protocol numbers, and port numbers for a sample of 5000 flows for each trace.
 The exact details of how the linear representation encodes these features will be discussed in \Section{methodology}.
