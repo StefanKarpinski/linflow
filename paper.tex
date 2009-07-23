@@ -63,7 +63,7 @@ We use this technique to predict the following characteristics of each flow from
 \end{enumerate}
 From these properties we can indirectly predict many other properties, including the total duration and data volume.
 
-At this point it may be wise to address what we mean by prediction.
+At this point, it may be wise to address what we mean here by prediction.
 Brief reflection shows that one cannot hope to accurately predict the exact behavior of flows:
 flow behavior is nondeterministic---flows may exhibit the same initial behavior but subsequently behave quite differently.
 The best we can do then is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
@@ -87,14 +87,14 @@ This subtle and difficult issue is central to our evaluation methodology.
 
 \section{Background \& Motivation}\sec{background}\sec{motivation}
 
-The most fundamental tool for investigating linear structure in high dimensions is the singular value decomposition (\caps{SVD}).
+The foremost tool for investigating linear structure in high dimensions is the singular value decomposition (\caps{SVD}).
 This matrix decomposition can be applied to any real matrix and factors it into a product of three real matrices:
 \begin{align}
   X = US\trans{V}.
 \end{align}
 Here $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of decreasing nonnegative value.
-Among the useful properties of this factorization, if all but the first $k$ diagonal entries of $S$ are zeroed out, the product $US_k\trans{V}$ is the best rank-$k$ approximation of $X$ under the Frobenius matrix norm.
-The rows of $US_k$ can thus be viewed as an optimal $k$-dimensional reduced model of the rows of $X$, with a new coordinate system given by the columns of $V$.
+Among the useful properties of this factorization, is that the product $US_k\trans{V}$ is the best rank-$k$ approximation of $X$ under the Frobenius matrix norm, where $S_k$ is the matrix $S$ with all but the first $k$ diagonal entries zeroed out.
+The $k$ initial coordinates of the rows of $US_k$ can thus be viewed as an optimal $k$-dimensional reduced model of the rows of $X$, with a new coordinate system given by the columns of $V$.
 
 We can visualize the $k$-dimensional approximate structure of $X$ in $k$ dimensions using the coordinates of $US_k$.
 However, the most significant feature of any vector in this representation is its magnitude.
@@ -116,11 +116,11 @@ The exact details of how the linear representation encodes these features will b
 \caption{SVD scatter plots for various traces.} 
 \fig{svd}
 \end{center}
-\vspace{-0.85em}
+\vspace{-2em}
 \end{figure}
 
-Clearly visible in \Figure{svd} is linear structure:
-points are heavily concentrated on low-dimensional subspaces.
+Linear structure is clearly visible in \Figure{svd}:
+the points are heavily concentrated on low-dimensional subspaces.
 Because of the projection step of our process, points concentrated along a one-dimensional subspace appear as dark ``spots'' where many points have been plotted;
 points concentrated along a two-dimensional subspace appear as lines;
 points falling along subspaces of three or more dimensions appear as ``smears.''
