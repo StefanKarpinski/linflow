@@ -46,7 +46,8 @@ it must distribute additively over set unions.
 % the sum of the representations of a set of flows is a vector that represents the aggregate behavior of the set of flows.
 An entire traffic trace may be represented as a matrix whose rows are the representations of flows in the trace.
 We restrict our consideration to a particularly natural and powerful class of representations whose coordinates are the frequencies of flow features in a set of flows.
-For example, the representation can have a dimension for each packet size up to 1500; coordinates in these dimensions indicate the number of packets of each size.
+For example, the representation can have a dimension for each packet size up to the maximum transfer unit (\caps{MTU});
+coordinates in these dimensions indicate the count of packets of each size.
 Port numbers, \caps{IP} protocol type, and inter-packet intervals can be handled similarly.
 % Examples of flow features are the number of packets of a certain size or the use of a particular port number.
 % The fundamental premise of this work, and of the sequel, is that the representatives of actual flow behaviors can be understood as being sampled from 
@@ -106,8 +107,25 @@ A linear representation, as defined by Karpinski~\emph{et~al.}~\cite{Karpinski08
   \Phi(s_1 \union s_2) = \Phi(s_1) + \Phi(s_2).
 \end{align}
 The representation function, $\Phi$, should map each set of flows to a vector which in some sense describes their collective behavior.
-For example: let $\Phi(s) \in \R^1$ be the number of packets in all the flows in as set $s$.
+For example: let $\Phi(s) \in \R^1$ be the number of packets in all the flows in the set $s$.
 Since the number of total packets in the union of two sets of flows is the sum of the number in each individually, this representation is linear.
+Given two representations, their direct sum is readily seen to also be a linear representation:
+\begin{align}
+  \Phi(s) = \Phi_1(s) \directsum \Phi_2(s).
+\end{align}
+
+A particularly powerful class of linear representations describes the behavior of collections of flows using histogram vectors to count the frequencies of various features.
+As mentioned before, a 1500-dimensional vector can be used to count the frequency of all possible packets sizes from a single byte up to the typical \caps{MTU} of 1500 bytes.
+In this representation, $\Phi(s) \in \R^{1500}$ has as its $i$th entry the number of packets in $s$ of size $i$.
+Since \caps{IP} protocol types range from 0 to 255, the frequency of types in a set of flows can be represented in 256 dimensions.
+The representation details for port numbers and inter-packet intervals are described detail in \Section{methodology}.
+% Source and destination port numbers can similarly be represented using 65536-dimensional vectors.
+% For practical purposes, however, this is too large a vector space, so we represent port numbers in 1000-dimensions, and reduce port numbers modulo 1000.
+% Finally, we represent inter-packet intervals by first quantizing into 1500 bins of interval values as described by Karpinski~\emph{et~al.} and counting the number of intervals in flows occurring in each bin.
+The representation we consider here is a direct sum of such histogram representations.
+The combination is a representation in 5256 dimensions.
+An entire trace is represented as a matrix of such representation vectors---one flow per row.
+This paper explores the linear structure of such matrices.
 
 \newfootnote{\svdnote}{More precisely, the product of the first $k$ columns of $U$ with the first $k$ rows of $\trans{V}$ is a Frobenius-optimal rank-$k$ approximation of $X$.}
 
