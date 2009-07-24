@@ -123,7 +123,7 @@ Histogram representations for port numbers and inter-packet intervals are detail
 % For practical purposes, however, this is too large a vector space, so we represent port numbers in 1000-dimensions, and reduce port numbers modulo 1000.
 % Finally, we represent inter-packet intervals by first quantizing into 1500 bins of interval values as described by Karpinski~\emph{et~al.} and counting the number of intervals in flows occurring in each bin.
 The representation we use is a direct sum of these histogram representations.
-The combination is a representation in 5256 dimensions.
+% The combination is a representation in 5256 dimensions.
 An entire trace is represented as a matrix of such representation vectors---one flow per row.
 This paper explores the linear structure of such matrices.
 
@@ -135,11 +135,11 @@ To see the linear structure of these representation matrices, we apply one of th
 the singular value decomposition (\caps{SVD}).
 This matrix decomposition can be applied to any real matrix, factoring it into a product of three real matrices:
 \begin{align}
-  X = U\!S\trans{V}.
+  X = US\trans{V}.
 \end{align}
 $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of nonincreasing nonnegative value.
-Among the useful properties of this factorization, is that the first $k$ columns of $U\!S$ are an optimal $k$-dimensional reduced model of $X$.\svdnote
-This property allows us to visualize the structure of $X$ using initial columns of $U\!S$.
+Among the useful properties of this factorization, is that the first $k$ columns of $US$ are an optimal $k$-dimensional reduced model of $X$.\svdnote
+This property allows us to visualize the structure of $X$ using initial columns of $US$.
 However, we are interested only interested in direction since
 vectors differing only by magnitude lie in the same one-dimensional subspace.
 To visualize direction while eliminating distance, we project all data points onto the unit-sum hyperplane from the origin.\projectionnote
@@ -161,19 +161,28 @@ Followed, of course, by the practical question: \emph{How can we exploit this st
 Neither question can be answered fully in a single paper, but we will begin to address the existential problem in the next section.
 In the rest of the paper we apply this insight to the eminently practical problem of predicting the behavior of individual flows from the observation of only a few of their initial packets.
 
-\section{Whence Linearity?}
+\section{Model \& Hypothesis}
 
-Our answer to the question of why low-dimensional linear structure appears in the feature-frequency representation of network traffic can be posed in the form of a model.
+Our answer to the question of why low-dimensional linear structure appears in the feature-frequency representation of network traffic can be expressed as a stochastic model of flow behavior.
 % A mixture model, to be specific.
 We propose viewing each flow as having a probability distribution of possible behaviors it could exhibit.
 % We propose that the behavior of each flow is drawn from a probability distribution on a space possible behaviors.
 We hypothesize that the behavior distribution for most flows is a mixture of a relatively small set of ``basic behaviors.''
-Moreover, only even smaller subsets of these basic behaviors are ever mixed with each other.
+Moreover, only even smaller subsets of these basic behaviors are typically combined with each other.
 Under these assumptions, we can express the distribution of each flow's behaviors as a finite mixture model~\cite{McLachlan00}:
 \begin{align}\eqn{mixture-model}
   q_i(x) = \sum_{j=1}^r w_{ij} p_j(x),
 \end{align}
 Here $q_i$ and $p_j$ are probability density functions, and $w_{ij}$ are nonnegative weights, summing to unity for each $i$.
+\Equation{mixture-model} is expressed succinctly as matrix multiplication.
+Writing $Q_{ik} = q_i(k)$, $W_{ij} = w_{ij}$, and $P_{jk} = p_j(k)$, we have:
+\begin{align}\eqn{mixture-model-matrix}
+  Q = WP.
+\end{align}
+The number of basic behaviors, $r$, is the maximum possible rank of the feature distribution matrix, $Q$.
+Next, partition the rows of $P$ into small sets which can have simultaneously non-zero weights: $P = [P_1;\cdots;P_g]$ using Matlab concatenation notation;
+assume the rows of $P$ are ordered to allow this.
+We can also assume that the rows of $Q$ and $W$ are ordered so that we can write $W = W_1 \directsum \cdots \directsum W_g$.
 
 % Mixture modeling expresses probability densities as convex combinations of constituent probability distributions:
 % \begin{align}\eqn{mixture-model}
