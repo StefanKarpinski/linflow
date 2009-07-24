@@ -29,6 +29,16 @@ University of California, Santa Barbara \vspace{0.35em}\\
 \begin{document}
 \maketitle
 
+\begin{abstract}
+We have observed that when network traffic behaviors are embedded into vector spaces in certain ways, they tend to exhibit a great deal of low-rank linear structure.
+This observation leads us to the hypothesis that flow behaviors follow a specific type of finite mixture model.
+Aside from being of theoretical interest, this model has practical consequences:
+it allows us, among other things, to make detailed predictions about the probabilities of various future flow behaviors after observing only a handful of a flow's initial packets.
+This practical application serves a dual function.
+It provides a highly useful tool of network management, especially in wireless networks where such predictions can be leveraged to better allocate scarce bandwidth resources.
+But it also provides evidence that the hypothesized model not only explains the observed linear structure, but is actually an accurate model of real network traffic.
+\end{abstract}
+
 \section{Introduction}\sec{introduction}
 
 \newfootnote{\flownote}{We use the common definition of a \textit{flow} as a sequence of packets sharing the same  ``5-tuple'': IP protocol type, source and destination nodes, and TCP/UDP port numbers.}
