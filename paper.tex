@@ -180,20 +180,16 @@ Writing $Q_{ik} = q_i(k)$, $W_{ij} = w_{ij}$, and $P_{jk} = p_j(k)$, we have:
   Q = WP.
 \end{align}
 The number of basic behaviors, $r$, is the maximum possible rank of the feature distribution matrix, $Q$.
-Next, partition the rows of $P$ into small sets which can have simultaneously non-zero weights: $P = [P_1;\cdots;P_g]$ using Matlab concatenation notation;
-assume the rows of $P$ are ordered to allow this.
-We can also assume that the rows of $Q$ and $W$ are ordered so that we can write $W = W_1 \directsum \cdots \directsum W_g$.
+Moreover, we can partition the rows of $P$ into disjoint classes such that $w_{ij_1}$ and $w_{ij_2}$ are both non-zero only if $j_1$ and $j_2$ are in the same class.
+Thus, each row of $Q$ is associated with exactly one class, and all the points associated with a class lie in the subspace spanned by its rows in $P$.
 
-% Mixture modeling expresses probability densities as convex combinations of constituent probability distributions:
-% \begin{align}\eqn{mixture-model}
-%   q_i(x) = \sum_{j=1}^r w_{ij} p_j(x),
-% \end{align}
-% Here $q_i$ and $p_j$ are density functions, and $w_{ij}$ are nonnegative weights, summing to unity for each $i$.
-% \Equation{mixture-model} says that each of the distributions $q_i$ is a convex mixture of the 
-
-% The question of why we see low-dimensional linear structure in the feature-frequency representation of network traffic is deeply connected to the nature of such linear representations themselves.
-% But the answer to the question also requires us to posit a hypothesis about the nature of network traffic.
-
+This model is an ideal, and observed behaviors have noise introduced by sampling, imperfect adherence to the model, and outliers.
+Yet the properties of the model explain the structures seen in \Figure{svd}.
+However, this is only one hypothesis that could fit the data.
+Like any hypothesis, it must be tested.
+The rest of this paper, aside from providing a useful, practical application, serves as a hypothesis test:
+we try to recover the matrices $W$ and $P$ from our imperfect observations of $Q$ and use the recovered model to predict flow behaviors.
+If the recovered model makes accurate predictions, this provides evidence that our hypothesis is correct.
 
 \vfill
 \break
