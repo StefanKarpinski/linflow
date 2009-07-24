@@ -142,7 +142,7 @@ Among the useful properties of this factorization, is that the first $k$ columns
 This property allows us to visualize the structure of $X$ using initial columns of $U\!S$.
 However, we are interested only interested in direction since
 vectors differing only by magnitude lie in the same one-dimensional subspace.
-To visualize direction while eliminating distance, we project all data points onto the unit-sum hyperplane through the origin.\projectionnote
+To visualize direction while eliminating distance, we project all data points onto the unit-sum hyperplane from the origin.\projectionnote
 
 \Figure{svd} illustrates the results of applying \caps{SVD} dimension reduction to sample matrices of six different traffic traces.
 The figures show scatter plots of the most significant two projected \caps{SVD} coordinates for a matrix of 5000 sample flows from each trace.
@@ -150,21 +150,29 @@ The figures show scatter plots of the most significant two projected \caps{SVD} 
 % The exact details of how the linear representation encodes these features will be discussed in \Section{methodology}.
 Linear structure is visible in all six:
 flow behaviors are heavily concentrated near low-dimensional subspaces.
-Points concentrated along a one-dimensional subspace appear as dark ``spots'' where many points have been plotted;
-points concentrated near two-dimensional subspaces appear as lines;
-points falling along higher subspaces appear as ``smears.''
+Behaviors concentrated along a one-dimensional subspace appear as dark ``spots'' where many points have been plotted;
+behaviors near two-dimensional subspaces appear as lines;
+behaviors on higher-dimensional subspaces appear as ``smears.''
 % There is a smattering of outliers, not especially near such structures.
 
 The presence of linear structure in the matrix representations of several independent traffic traces immediately raises two significant questions.
-The more philosophical question is \emph{Why does this linear structure exist?}
-The more practical question is \emph{How can we exploit this structure?}
-Neither question can be answered fully in a single paper.
-In what follows, we provide some insight into the first question, and use that insight to predict the behavior of individual flows from the observation of only a few initial packets.
+The existential question: \emph{Why does this linear structure exist?}
+Followed, of course, by the practical question: \emph{How can we exploit this structure?}
+Neither question can be answered fully in a single paper, but we will begin to address the existential problem now.
+In the rest of the paper we apply this insight to the eminently practical problem of predicting the behavior of individual flows from the observation of only a few of their initial packets.
 
 \vfill
 \break
 
 \section{Methodology}\sec{methodology}
+
+\subsection{Linear Representation}\sec{linear-representation}
+
+\subsection{Subspace Segmentation}\sec{subspace-segmentation}
+
+\subsection{Subspace Factorization}\sec{subspace-factorization}
+
+\subsection{Flow Behavior Prediction}\sec{flow-behavior-prediction}
 
 \section{Results}\sec{results}
 
