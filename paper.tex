@@ -165,6 +165,17 @@ In the rest of the paper we apply this insight to the eminently practical proble
 
 Our answer to the question of why low-dimensional linear structure appears in the feature-frequency representation of network traffic can be posed in the form of a model.
 A mixture model, to be specific.
+We propose to view each flow as having a probability distribution of possible behaviors it could exhibit.
+% We propose that the behavior of each flow is drawn from a probability distribution on a space possible behaviors.
+We hypothesize that the behavior distribution for most flows is a mixture of a relatively small set of ``basic behaviors.''
+Moreover, only even smaller subsets of these basic behaviors are ever mixed with each other.
+
+% Mixture modeling expresses probability densities as convex combinations of constituent probability distributions:
+% \begin{align}\eqn{mixture-model}
+%   q_i(x) = \sum_{j=1}^r w_{ij} p_j(x),
+% \end{align}
+% Here $q_i$ and $p_j$ are density functions, and $w_{ij}$ are nonnegative weights, summing to unity for each $i$.
+% \Equation{mixture-model} says that each of the distributions $q_i$ is a convex mixture of the 
 
 % The question of why we see low-dimensional linear structure in the feature-frequency representation of network traffic is deeply connected to the nature of such linear representations themselves.
 % But the answer to the question also requires us to posit a hypothesis about the nature of network traffic.
