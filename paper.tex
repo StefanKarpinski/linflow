@@ -198,10 +198,14 @@ The properties of the model explain the structures seen in \Figure{svd}.
 However, this is only one hypothesis that could fit the data.
 Like any hypothesis, it must be tested.
 The rest of this paper, aside from providing a practical application, serves as a hypothesis test:
-we try to recover the matrices $W$ and $P$ from our imperfect observations of $Q$ and use the recovered model to predict real flow behaviors.
-If the recovered model can make accurate predictions, this provides evidence that our model and hypothesis are largely accurate.
+we try to recover the matrices $W$ and $P$ from our noisy and imperfect observations of $Q$ and use the recovered model to predict real flow behaviors.
+If the recovered model can make accurate predictions, this provides evidence that our model and hypothesis are valid.
 
 \section{Methodology}\sec{methodology}
+
+Our methodology for recovering the hypothesized linear structure of network traffic from trace samples uses a variety of cutting-edge and recently developed data-mining techniques.
+To extract linear subspace structure, we use Ma~\emph{et~al.}'s 2007 algorithm based on lossy compression of data points~\cite{Ma07}.
+
 
 \subsection{Linear Representation}\sec{linear-representation}
 
