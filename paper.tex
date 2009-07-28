@@ -99,6 +99,7 @@ This subtle and difficult issue is central to our evaluation methodology.
 \section{Background \& Motivation}\sec{background}\sec{motivation}
 
 \begin{figure*}[t]
+\vspace{-1em}
 \begin{center}
 \subfloat[\footnotesize{DARTMOUTH}]{\includegraphics[width=1.15in]{svd/dart}}
 \subfloat[\footnotesize{IETF 60}]{\includegraphics[width=1.15in]{svd/ie60}}
@@ -200,6 +201,75 @@ Like any hypothesis, it must be tested.
 The rest of this paper, aside from providing a practical application, serves as a hypothesis test:
 we try to recover the matrices $W$ and $P$ from our noisy and imperfect observations of $Q$ and use the recovered model to predict real flow behaviors.
 If the recovered model can make accurate predictions, this provides evidence that our model and hypothesis are valid.
+
+\begin{table*}
+\begin{center}
+\small
+\begin{tabular}{|c|c|c|c|c|c|c|}
+
+\hline
+\textbf{Trace} &
+\textbf{Year} &
+\textbf{Start} &
+\textbf{End} &
+\textbf{Type} &
+\textbf{Network} \\
+\hline
+
+{\footnotesize{DARTMOUTH}} &
+2003 &
+Mon Nov  3 18:39:48 &
+Wed Nov  5 16:09:48 &
+campus &
+Dartmouth College campus \\
+\hline
+
+{\footnotesize{IETF 60}} &
+2004 &
+Wed Aug  4 17:02:50 &
+Wed Aug  4 18:02:49 &
+conference &
+IETF hotel venue \\
+\hline
+
+{\footnotesize{IETF 67}} &
+2006 &
+Wed Nov  8 19:31:56 &
+Wed Nov  8 20:18:29 &
+conference &
+IETF hotel venue \\
+\hline
+
+{\footnotesize{SIGCOMM 2001}} &
+2001 &
+Wed Aug 29 17:24:47 &
+Fri Aug 31 19:53:15 &
+conference &
+SIGCOMM hotel venue \\
+\hline
+
+{\footnotesize{SIGCOMM 2004}} &
+2004 &
+Tue Aug 31 13:25:04 &
+Fri Sep  3 21:40:22 &
+conference &
+SIGCOMM hotel venue \\
+\hline
+
+{\footnotesize{UCSD}} &
+2007 &
+Thu Jan 11 07:59:50 &
+Fri Jan 12 07:59:55 &
+campus &
+UCSD engineering building \\
+\hline
+
+\end{tabular}
+\caption{Traffic traces used for analysis and experiments.}
+\tab{traces}
+\end{center}
+\vspace{-2em}
+\end{table*}
 
 \section{Methodology}\sec{methodology}
 
