@@ -57,7 +57,7 @@ For each feature of a flow, we represent that aspect of the flow's behavior as a
 a vector having a dimension for each possible value of the feature and whose coordinates are the relative frequency of values.
 For example, the vector representing the distribution of packet sizes of a flow having four 40-byte and two 145-bytes packets is
 \begin{align}
-  \frac{1}{6}\parens{4\vec{e}_{40} + 2\vec{e}_{145}}.
+  \text{size} = \frac{1}{6}\parens{4\vec{e}_{40} + 2\vec{e}_{145}}.
 \end{align}
 % The dimension of this representation is 1500 because that is typically the maximum transfer unit (\caps{MTU}) of local networks.
 Different aspects of flow behavior can be represented in this way, and these representations can be combined by taking the direct sum of their representation vectors.
@@ -120,36 +120,47 @@ We conclude with final remarks in \Section{conclusions}.
 \vspace{-2em}
 \end{figure*}
 
-A linear representation, as proposed by Karpinski~\emph{et~al.}~\cite{Karpinski08}, maps sets of flows into a vector space such that disjoint union of sets becomes addition in the vector space:
-\begin{align}
-  \Phi(s_1 \disunion s_2) = \Phi(s_1) + \Phi(s_2).
-\end{align}
-The representation function should map each set of flows to a vector that in some sense describes their collective behavior.
-For example: let $\Phi(s) \in \R^1$ be the number of packets in the flows in $s$.
-Since the number of packets in the disjoint union of sets of flows is the sum of the number in each set individually, this representation is linear.
-Given two representations, their direct sum is readily seen to also be a linear representation:
-\begin{align}
-  \Phi(s) = \Phi_1(s) \directsum \Phi_2(s).
-\end{align}
+\newfootnote{\directsumnote}{The direct sum is the vector space analogue of a cross product of sets.}
 
-A particularly powerful class of linear representations describes the behavior of collections of flows using histogram vectors to count the frequencies of various features.
-A 1500-dimensional vector can be used to count the frequency of packet sizes seen, from one byte up to the typical \caps{MTU} of 1500 bytes.
-In this representation, $\Phi(s)$ has as its $i$th entry the number of packets in $s$ of size $i$.
-Since \caps{IP} protocols range from 0 to 255, the frequency of types in a set of flows can be represented in 256 dimensions.
-Histogram representations for port numbers and inter-packet intervals are detailed in \Section{methodology}.
-% Source and destination port numbers can similarly be represented using 65536-dimensional vectors.
-% For practical purposes, however, this is too large a vector space, so we represent port numbers in 1000-dimensions, and reduce port numbers modulo 1000.
-% Finally, we represent inter-packet intervals by first quantizing into 1500 bins of interval values as described by Karpinski~\emph{et~al.} and counting the number of intervals in flows occurring in each bin.
-The representation we use is a direct sum of these histogram representations.
-% The combination is a representation in 5256 dimensions.
-An entire trace is represented as a matrix of such representation vectors---one flow per row.
-This paper explores the linear structure of such matrices.
+Before we can present our motivating observation about the linear structure of network traffic, we must explain how flow behaviors are represented as feature-frequency vectors. spaces.
+The low-level details of this representation are given in \Section{representation}.
+For now, what the reader must know is that each feature is represented by a vector where each possible value of the feature correspond to a dimension and the normalized frequency of that value occurring is the corresponding coordinate in the vector.
+We have already given the example of packet size distribution in the introduction.
+The vectors are normalized in that the sum of the coordinates of each feature-frequency vector is unity.
+To combine multiple feature-frequency vectors into a composite description of the overall behavior of the flow, we take the direct sum their representations:\directsumnote
+\begin{align}
+  \text{flow} =
+  \text{size} \directsum
+  \text{ival} \directsum
+  \text{type} \directsum
+  \text{ports} \directsum
+  \text{pkts}.
+\end{align}
+The behavior of a feature across a collection of flows can be represented as a matrix where each row represents a flow:
+\begin{align}
+  \text{Size} = \begin{bmatrix}
+    \text{size}_1 \\
+    \vdots \\
+    \text{size}_m
+  \end{bmatrix}.
+\end{align}
+The overall behavior of the collection of flows then becomes a concatenation of these feature matrices:
+\begin{align}
+  X = [ ~
+  \text{Size} ~
+  \text{Ival} ~
+  \text{Type} ~
+  \text{Ports} ~
+  \text{Pkts} ~
+  ].
+\end{align}
+It is this matrix, representing the total behavior of a collection of flows, to which we apply our analysis.
 
 \newfootnote{\svdnote}{More precisely, the product of the first $k$ columns of $U$ with the first $k$ rows of $\trans{V}$ is a Frobenius-optimal rank-$k$ approximation of $X$.}
 
 \newfootnote{\projectionnote}{We could normalize the vectors to unit length, but then our projection would be spherical, artificially introducing curvature into our visualization.}
 
-To see the linear structure of these representation matrices, we apply one of the most powerful tools of linear algebra:
+To see the linear structure of these representation matrices, we apply one of the most fundamental tools of linear algebra:
 the singular value decomposition (\caps{SVD}).
 This matrix decomposition can be applied to any real matrix, factoring it into a product of three real matrices:
 \begin{align}
@@ -157,27 +168,28 @@ This matrix decomposition can be applied to any real matrix, factoring it into a
 \end{align}
 $U$ and $V$ are orthogonal and $S$ is diagonal, with entries of nonincreasing nonnegative value.
 Among the useful properties of this factorization, is that the first $k$ columns of $US$ are an optimal $k$-dimensional reduced model of $X$.\svdnote
-This property allows us to visualize the structure of $X$ using initial columns of $US$.
-However, we are interested only interested in direction since
-vectors differing only by magnitude lie in the same one-dimensional subspace.
-To visualize direction while eliminating distance, we project all data points onto the unit-sum hyperplane from the origin.\projectionnote
+This property allows us to visualize the structure of $X$ using initial columns of $US$---and this is precisely what we do.
+However, it must be done in a particular way.
+First determine an appropriate value for $k$.
+Here we take the number of dimensions necessary to account for 75\% of the variance seen in $X$;
+other approaches work well too.
+Discarding the rest of the dimensions has the effect of ``denoising'' the data.
+The vectors of the remaining $k$-dimensional reduction of $X$ may have different magnitudes, but we are only interested in direction, since vectors differing only be magnitude lie in the same one-dimensional subspace.
+Therefore, we project each row vector through the origin onto the unit-sum hyperplane.\projectionnote
+It is the coordinates of this reduced, projected data which exhibit clear linear structure.
 
-\Figure{svd} illustrates the results of applying \caps{SVD} dimension reduction to sample matrices of six different traffic traces.
-The figures show scatter plots of the most significant two projected \caps{SVD} coordinates for a matrix of 5000 sample flows from each trace.
-% The original data encodes packet size distributions, inter-packet interval distributions, \caps{IP} protocol numbers, and port numbers for a sample of 5000 flows from each trace.
-% The exact details of how the linear representation encodes these features will be discussed in \Section{methodology}.
-Linear structure is visible in all six:
+\Figure{svd} shows scatter plots of most significant two coordinates when this procedure is applied to a random sample of 5000 flows from each of six unrelated traffic traces.
+Clear linear structure is visible in all six traces:
 flow behaviors are heavily concentrated near low-dimensional subspaces.
 Behaviors concentrated along a one-dimensional subspace appear as dark ``spots'' where many points have been plotted;
 behaviors near two-dimensional subspaces appear as lines;
 behaviors on higher-dimensional subspaces appear as ``smears.''
-% There is a smattering of outliers, not especially near such structures.
 
 The presence of linear structure in the matrix representations of several independent traffic traces immediately raises two significant questions.
 The existential question: \emph{Why does this linear structure exist?}
 Followed, of course, by the practical question: \emph{How can we exploit this structure?}
 Neither question can be answered fully in a single paper, but we will begin to address the existential problem in the next section.
-In the rest of the paper we apply this insight to the eminently practical problem of predicting the behavior of individual flows from the observation of only a few of their initial packets.
+In the rest of this paper we apply this insight to the eminently practical problem of predicting the behavior of individual flows from the observation of only a few of their initial packets.
 
 \section{Model \& Hypothesis}\sec{model}\sec{hypothesis}
 
