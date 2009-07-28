@@ -223,7 +223,13 @@ As noted in the \Section{introduction}, due to nondeterminism we cannot possibly
 %   \item Find optimal weights to approximate each data point from the vertices of its subspace.
 % \end{enumerate}
 
+\subsection{Data Sets}
+
 \subsection{Linear Representation}\sec{linear-representation}
+
+We model several aspects of flow behavior via feature-frequency linear representation.
+Packet sizes and and inter-packet intervals are represented using frequency histograms.
+Packet sizes are naturally quantized, taking on only values from 1 to the \caps{MTU}, which was 1500 in all of our traces.
 
 \subsection{Subspace Segmentation}\sec{subspace-segmentation}
 
@@ -231,7 +237,7 @@ As noted in the \Section{introduction}, due to nondeterminism we cannot possibly
 
 \subsection{Flow Behavior Prediction}\sec{flow-behavior-prediction}
 
-\subsection{Evaluating Prediction Quality}\sec{evaluation}
+\subsection{Evaluating Predictions}\sec{evaluation}
 
 \section{Results}\sec{results}
 
