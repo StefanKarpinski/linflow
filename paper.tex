@@ -241,6 +241,26 @@ Packet sizes are naturally quantized, taking on only values from 1 to the \caps{
 
 \section{Results}\sec{results}
 
+\begin{figure*}[t!]
+\begin{center}
+\subfloat[Packet sizes: \footnotesize{DARTMOUTH}]{%
+\includegraphics[width=3.545in]{size/dart}}
+\subfloat[Packet sizes: \footnotesize{SIGCOMM 2004}]{%
+\includegraphics[width=3.545in]{size/sc04}}
+\subfloat[Inter-packet intervals: \footnotesize{DARTMOUTH}]{%
+\includegraphics[width=3.545in]{ival/dart}}
+\subfloat[Inter-packet intervals: \footnotesize{SIGCOMM 2004}]{%
+\includegraphics[width=3.545in]{ival/sc04}}
+\caption{%
+CDFs of Kolmogorov-Smirnov p-values for various predictors of packet size distribution and inter-packet interval distribution for two selected traces. Lower curves are better and the ``ideal'' curve provides a lower bound on quality.
+Vertical segments indicate the farthest distance between the ideal and each CDF.
+This distance serves as a pessimistic measure of each predictor's error rate.
+}
+\fig{cdf}
+\end{center}
+\vspace{-2em}
+\end{figure*}
+
 \section{Discussion}\sec{discussion}
 
 \section{Conclusions}\sec{conclusions}
