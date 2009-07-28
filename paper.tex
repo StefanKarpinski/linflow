@@ -87,6 +87,14 @@ applications range from network management to routing to quality of service.
 Looking deeper than these immediate applications, however, the mere fact that this prediction technique works at all provides strong evidence that the underlying hypothesized model of flow behavior is valid.
 Our future works will provide further applications and evidence by applying the same model to the problems of traffic classification and realistic workload generation.
 
+The rest of this paper is organized as follows.
+In \Section{background}, we provide some background and the present the observations which motivate this work.
+Our model and hypothesis about flow behavior is presented in \Section{hypothesis}.
+The experimental methodology for testing this hypothesis is presented in \Section{methodology}, and the results follow in \Section{results}.
+\Section{discussion} discusses the meaning and impact of our results.
+\Section{related-work} gives context for this work in relation other research.
+We conclude with final remarks in \Section{conclusions}.
+
 % At this point, it may be wise to address what we mean here by prediction.
 % Brief reflection shows that one cannot hope to accurately predict the exact behavior of flows:
 % flow behavior is nondeterministic---flows may exhibit the same initial behavior but subsequently behave quite differently.
@@ -94,20 +102,6 @@ Our future works will provide further applications and evidence by applying the 
 % When compared with a specific outcome, such a prediction cannot be said to be ``wrong'' or ``right.''
 % How then can one measure the quality of a predicted distribution of outcomes?
 % This subtle and difficult issue is central to our evaluation methodology.
-
-% real-world network traces tend to have approximately low-rank representation matrices despite the potential rank of such matrices being very large.
-% Moreover, most flows' vectors lie on only one of a few even lower rank subspaces.
-% Moreover, the low-rank subspace near which real traffic lies can be decomposed into subspaces of even lower rank, with almost all flows lying in one of these subspaces.
-% Typically, these smaller subspaces are one-dimensional, but in some cases they may have up to a dozen dimensions.
-
-% the vast majority of observed flow behaviors in any given trace lie in one of a handful low-rank subspaces.
-% These subspaces are mostly of rank one, but a few have dimensions as high as ten.
-
-% Karpinski~\emph{et~al.}~\cite{Karpinski08} further observed that the simplifications commonly used in traffic modeling correspond to multiplication of traffic representation matrices by low-rank matrices, averaging over rows or columns.
-% They demonstrated experimentally that such simplifications severely distort important behavioral properties of traffic traces;
-% viewing these simplification as low-rank matrix transformations, this is unsurprising:
-% most of the detail of the original traffic behavior is destroyed.
-% It was suggested that matrix factorization provides an alternative and superior means of model reduction.
 
 \section{Background \& Motivation}\sec{background}\sec{motivation}
 
@@ -185,7 +179,7 @@ Followed, of course, by the practical question: \emph{How can we exploit this st
 Neither question can be answered fully in a single paper, but we will begin to address the existential problem in the next section.
 In the rest of the paper we apply this insight to the eminently practical problem of predicting the behavior of individual flows from the observation of only a few of their initial packets.
 
-\section{Model \& Hypothesis}\sec{model-hypothesis}
+\section{Model \& Hypothesis}\sec{model}\sec{hypothesis}
 
 Our answer to the question of why low-dimensional linear structure appears in the feature-frequency representation of network traffic can be expressed as a hypothetical model of flow behavior.
 % A mixture model, to be specific.
@@ -288,7 +282,7 @@ UCSD engineering building \\
 
 Our experimental methodology has three parts:
 training, prediction and evaluation.
-For training, we take a sample of network trace traffic and try to recover the structure hypothesized in \Section{model-hypothesis} from it.
+For training, we take a sample of network trace traffic and try to recover the structure hypothesized in \Section{hypothesis} from it.
 For prediction, we use the trained model to predict behaviors of a separate set of flows from the same trace, using only knowledge of a few initial packets of each.
 Finally, we must evaluate the quality of these predictions.
 As noted in the \Section{introduction}, due to nondeterminism we cannot possibly predict exact behaviors of flows and must instead evaluate how good a predicted distribution of possible behaviors is as compared to actual outcomes.
@@ -406,6 +400,8 @@ This distance serves as a pessimistic measure of each predictor's error rate.
 \end{figure*}
 
 \section{Discussion}\sec{discussion}
+
+\section{Related Work}\sec{related-work}
 
 \section{Conclusions}\sec{conclusions}
 
