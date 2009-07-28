@@ -295,11 +295,57 @@ As noted in the \Section{introduction}, due to nondeterminism we cannot possibly
 
 \subsection{Data Sets}
 
-\subsection{Linear Representation}\sec{linear-representation}
+We use randomly sampled traffic from six different network traces.
+All six traces are freely available from the \caps{CRAWDAD} wireless trace repository~\cite{Yeo06}.
+These traces represent a cross-section of traffic patterns over time and a reasonable variety of network types.
+Unfortunately, we could find no freely available commercial hotspot or corporate network traces that were usable for our analysis.
+We randomly sampled 5000 flows from each trace for training and another 5000 flows for testing.
 
-We model several aspects of flow behavior via feature-frequency linear representation.
-Packet sizes and and inter-packet intervals are represented using frequency histograms.
-Packet sizes are naturally quantized, taking on only values from 1 to the \caps{MTU}, which was 1500 in all of our traces.
+\subsection{Feature-Frequency Representation}\sec{representation}
+
+We embed the following features of flow behavior into vector spaces via feature-frequency linear representation:
+packet size distribution,
+inter-packet interval distribution,
+packet count,
+\caps{IP} protocol type,
+\caps{TCP/UDP} port numbers.
+All features are represented using frequency histograms.
+For packet size distribution, this is trivial since packet sizes are discrete, taking on only values from 1 to the \caps{MTU}, which was 1500 in all of our traces.
+Inter-packet intervals must be quantized, using the scheme described by Karpinski~\emph{et~al.}~\cite{Karpinski08} but using only 500 dimensions instead of 1500.
+This scheme maps bins of interval durations to indices, with the bins starting at the scale of milliseconds, and ramping smoothly up to seconds at the high end of the scale.
+Intervals of more than ten minutes are considered to start a new flow.
+
+\caps{IP} protocol type is naturally discrete, with values from 0 to 255, represented by a 256-dimensions histogram vector.
+The ``histogram'' for a single flow is always just an indicator vector with a single unit entry.
+However, the linear embedding of this feature into a frequency space allows us to infer the distribution of possible values using linear analysis.
+Similarly, port numbers are naturally discrete.
+However, the range of port numbers (0-65535) is too large for practical representation using a full histogram.
+Instead, we represent port numbers by their remainder modulo 1000.
+Port numbers are sufficiently spread out that this still provides ample distinction between traffic types.
+We also represent the packet count of each flow.
+Since the potential packet count is unlimited, we must take some approach to limiting the dimension of this frequency representation.
+We use the simplest approach and simply cap the packet count at 3000 packets:
+all flows with 3000 or more packets fall into the same histogram bin.
+In practice, flows longer than 3000 packets are ``long.''
+
+Each flow is thus represented as a direct sum of frequency vectors:
+\begin{math}
+  \text{size} \directsum
+  \text{ival} \directsum
+  \text{type} \directsum
+  \text{ports} \directsum
+  \text{pkts} \in \R^{6256}.
+\end{math}
+A collection of flows is represented as a ``stacked'' matrix of row vectors:
+\begin{align}
+  X = [ ~
+  \text{Size} ~
+  \text{Ival} ~
+  \text{Type} ~
+  \text{Ports} ~
+  \text{Pkts} ~
+  ] \in \R^{m \times 6256}.
+\end{align}
 
 \subsection{Subspace Segmentation}\sec{subspace-segmentation}
 
