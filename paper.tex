@@ -60,7 +60,7 @@ For example, the vector representing the distribution of packet sizes of a flow 
   \frac{1}{6}\parens{4\vec{e}_{40} + 2\vec{e}_{145}}.
 \end{align}
 % The dimension of this representation is 1500 because that is typically the maximum transfer unit (\caps{MTU}) of local networks.
-Different aspects of flow behavior can be represented in this way, and those representations can be combined simply by taking the direct sum of their representation vectors.
+Different aspects of flow behavior can be represented in this way, and these representations can be combined by taking the direct sum of their representation vectors.
 
 The behavior of any set of flows, such as a traffic trace, can be represented as a matrix of feature-frequency vectors.
 We use the convection that features values correspond to matrix columns while flows correspond to matrix rows.
@@ -69,12 +69,12 @@ the resulting matrices exhibit a great deal of linear structure.
 Specifically, flow behaviors tend to lie near the union of a small set of low-rank subspaces.
 It is the investigation of this linear structure that lies at the core of this paper.
 
-We hypothesize that the reason for the linear structure is that the distribution of each flows behavior is a finite mixture of a small set of ``basic behaviors.''
-Moreover, the mixing of basic behaviors is itself structured.
-This property allows us to perform a drastic model reduction on trace traffic patterns while preserving the essential characteristics of the original traffic.
+% We hypothesize that the reason for the linear structure is that the distribution of each flows behavior is a finite mixture of a small set of ``basic behaviors.''
+% Moreover, the mixing of basic behaviors is itself structured.
+The linear structure of network traffic allows us to perform a drastic model reduction on trace traffic patterns while preserving the essential characteristics of the original trace.
 Furthermore, when observable characteristics of flows are separated from features to be predicted, this model reduction is similar to a classical linear regression:
-it allows us to use a least squares optimization on observed features to predict behavior.
-We use this technique to predict the following characteristics of each flow from observing only a handful of its initial packets:
+it allows us to use least squares optimization on observed features to predict individual flow behavior.
+We use this technique to predict the following characteristics of flows from a few initial packets:
 \begin{enumerate}
   \item the distribution of packets sizes,
   \item the distribution of inter-packet intervals,
@@ -82,13 +82,18 @@ We use this technique to predict the following characteristics of each flow from
 \end{enumerate}
 From these properties we can indirectly predict many other properties, including the total duration and data volume.
 
-At this point, it may be wise to address what we mean here by prediction.
-Brief reflection shows that one cannot hope to accurately predict the exact behavior of flows:
-flow behavior is nondeterministic---flows may exhibit the same initial behavior but subsequently behave quite differently.
-The best we can do then is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
-When compared with a specific outcome, such a prediction cannot be said to be ``wrong'' or ``right.''
-How then can one measure the quality of a predicted distribution of outcomes?
-This subtle and difficult issue is central to our evaluation methodology.
+This prediction technique, is clearly of immediate practical use:
+applications range from network management to routing to quality of service.
+Looking deeper than these immediate applications, however, the mere fact that this prediction technique works at all provides strong evidence that the underlying hypothesized model of flow behavior is valid.
+Our future works will provide further applications and evidence by applying the same model to the problems of traffic classification and realistic workload generation.
+
+% At this point, it may be wise to address what we mean here by prediction.
+% Brief reflection shows that one cannot hope to accurately predict the exact behavior of flows:
+% flow behavior is nondeterministic---flows may exhibit the same initial behavior but subsequently behave quite differently.
+% The best we can do then is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
+% When compared with a specific outcome, such a prediction cannot be said to be ``wrong'' or ``right.''
+% How then can one measure the quality of a predicted distribution of outcomes?
+% This subtle and difficult issue is central to our evaluation methodology.
 
 % real-world network traces tend to have approximately low-rank representation matrices despite the potential rank of such matrices being very large.
 % Moreover, most flows' vectors lie on only one of a few even lower rank subspaces.
