@@ -30,13 +30,13 @@ University of California, Santa Barbara \vspace{0.35em}\\
 \maketitle
 
 \begin{abstract}
-We have observed that when network traffic behaviors are embedded into vector spaces in certain ways, they tend to exhibit a great deal of low-rank linear structure.
-This observation leads us to the hypothesis that flow behaviors follow a specific type of finite mixture model.
-Aside from being of theoretical interest, this model has practical consequences:
+We have observed that when network traffic behaviors are represented in vector spaces as relative frequency histograms of behavioral features, they tend to exhibit a great deal of low-rank linear structure.
+We hypothesize that this structure is due the distribution of flow behaviors following a  finite mixture model.
+Aside from being of theoretical interest, this hypothesis has practical consequences:
 it allows us, among other things, to make detailed predictions about the probabilities of various future flow behaviors after observing only a handful of a flow's initial packets.
 This practical application serves a dual function.
 It provides a highly useful tool of network management, especially in wireless networks where such predictions can be leveraged to better allocate scarce bandwidth resources.
-However, it also provides evidence that the hypothesized model not only explains the observed linear structure, but is an accurate model of real network traffic.
+However, it also provides evidence that the hypothesized model provides a correct explanation for the observed linear structure in real network traffic.
 \end{abstract}
 
 \section{Introduction}\sec{introduction}
@@ -44,27 +44,35 @@ However, it also provides evidence that the hypothesized model not only explains
 \newfootnote{\flownote}{We use the common definition of a \textit{flow} as a sequence of packets sharing the same  ``5-tuple'': IP protocol type, source and destination nodes, and TCP/UDP port numbers.}
 
 This paper is the first in a three-part series employing a numerical linear algebra techniques to understand and analyze network traffic patterns at a detailed level of individual flows and packets.\flownote
-All three papers employ the same theoretical framework but investigate different fundamental applications of traffic modeling:
+All three papers employ the same analytical framework but investigate different fundamental applications of traffic modeling:
 prediction, classification and generation.
 In this paper we first present the framework and then demonstrate how it can predict the behavior of individual flows from the observation of only a handful of their initial packets.
 % The following papers will focus on classification of flows according to application type and realistic workload generation.
 
-The fundamental concept underlying this work is \emph{linear representation of network traffic}~\cite{Karpinski08}.
-A linear representation is a function that maps sets of flows to vectors, the coordinates of which describe aspects of flow behavior;
-it must distribute additively over set unions.
-% the representation must also satisfy a simple linearity condition which we will describe in detail later.
-% the sum of the representations of a set of flows is a vector that represents the aggregate behavior of the set of flows.
-An entire traffic trace may be represented as a matrix whose rows are the representations of flows in the trace.
-We restrict our consideration to a particularly natural and powerful class of representations whose coordinates are the frequencies of flow features in a set of flows.
-For example, the representation can have a dimension for each packet size up to the maximum transfer unit (\caps{MTU});
-coordinates in these dimensions indicate the count of packets of each size.
-Port numbers, \caps{IP} protocol type, and inter-packet intervals can be handled similarly.
-% Examples of flow features are the number of packets of a certain size or the use of a particular port number.
-% The fundamental premise of this work, and of the sequel, is that the representatives of actual flow behaviors can be understood as being sampled from 
+This work begins with a particular way of representing flow behaviors as vectors.
+% and the behaviors of entire traffic traces as large, sparse matrices.
+% This approach was first proposed in by Karpinski~\emph{et~al.}~\cite{Karpinski08}, who called this general type of representation \emph{linear representations}.
+The representation is quite simple.
+For each feature of a flow, we represent that aspect of the flow's behavior as a \emph{feature-frequency vector}:
+a vector having a dimension for each possible value of the feature and whose coordinates are the relative frequency of values.
+For example, the vector representing the distribution of packet sizes of a flow having four 40-byte and two 145-bytes packets is
+\begin{align}
+  \frac{1}{6}\parens{4\vec{e}_{40} + 2\vec{e}_{145}}.
+\end{align}
+% The dimension of this representation is 1500 because that is typically the maximum transfer unit (\caps{MTU}) of local networks.
+Different aspects of flow behavior can be represented in this way, and those representations can be combined simply by taking the direct sum of their representation vectors.
 
-The essential observation of this research is that under such representations, real flows tend to lie near a small set of low-rank subspaces.
+The behavior of any set of flows, such as a traffic trace, can be represented as a matrix of feature-frequency vectors.
+We use the convection that features values correspond to matrix columns while flows correspond to matrix rows.
+When traffic traces are represented like this, a very curious thing happens:
+the resulting matrices exhibit a great deal of linear structure.
+Specifically, flow behaviors tend to lie near the union of a small set of low-rank subspaces.
+It is the investigation of this linear structure that lies at the core of this paper.
+
+We hypothesize that the reason for the linear structure is that the distribution of each flows behavior is a finite mixture of a small set of ``basic behaviors.''
+Moreover, the mixing of basic behaviors is itself structured.
 This property allows us to perform a drastic model reduction on trace traffic patterns while preserving the essential characteristics of the original traffic.
-Moreover, when observable characteristics of flows are separated from features to be predicted, this model reduction is similar to a classical linear regression:
+Furthermore, when observable characteristics of flows are separated from features to be predicted, this model reduction is similar to a classical linear regression:
 it allows us to use a least squares optimization on observed features to predict behavior.
 We use this technique to predict the following characteristics of each flow from observing only a handful of its initial packets:
 \begin{enumerate}
