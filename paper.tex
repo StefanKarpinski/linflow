@@ -193,7 +193,7 @@ In the rest of this paper we apply this insight to the eminently practical probl
 
 \section{Model \& Hypothesis}\sec{model}\sec{hypothesis}
 
-Our answer to the question of why low-dimensional linear structure appears in the feature-frequency representation of network traffic can be expressed as a hypothetical model of flow behavior.
+Our answer to the question of why low-dimensional linear structure appears in the feature-frequency representation of network traffic can be expressed as a hypothetical statistical model for flow behavior.
 % A mixture model, to be specific.
 We propose viewing each flow as having a probability distribution of possible behaviors it could exhibit.
 % We propose that the behavior of each flow is drawn from a probability distribution on a space possible behaviors.
@@ -213,9 +213,9 @@ The number of basic behaviors, $r$, is the maximum possible rank of the feature 
 Moreover, we can partition the rows of $P$ into disjoint classes such that $w_{ij_1}$ and $w_{ij_2}$ are both non-zero only if $j_1$ and $j_2$ are in the same class.
 Thus, each row of $Q$ is associated with exactly one class, and all the points associated with a class lie in the subspace spanned by its rows in $P$.
 
-The properties of the model explain the structures seen in \Figure{svd}.
+The properties of the model exactly explain the structures seen in \Figure{svd}.
 % This model is an ideal, and observed behaviors have noise introduced by sampling, imperfect adherence to the model, and outliers.
-However, this is only one hypothesis that could fit the data.
+However, this is only one possible hypothesis that fits the data.
 Like any hypothesis, it must be tested.
 The rest of this paper, aside from providing a practical application, serves as a hypothesis test:
 we try to recover the matrices $W$ and $P$ from our noisy and imperfect observations of $Q$ and use the recovered model to predict real flow behaviors.
