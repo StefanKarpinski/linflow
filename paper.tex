@@ -261,14 +261,20 @@ This distance serves as a pessimistic measure of each predictor's error rate.
 \vspace{-2em}
 \end{figure*}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \begin{center}
-\includegraphics[width=2.1in]{pkts_accuracy}
-\caption{Packet count prediction accuracy and uncertainty reduction.}
+\hfill
+\subfloat[Packet count: accuracy]{%
+\includegraphics[width=2.1in]{pkts_accuracy}}\hfill
+\subfloat[Packet count: uncertainty reduction]{%
+\includegraphics[width=2.1in]{pkts_certainty}}\hfill
+\subfloat[Packet count: prediction entropy]{%
+\includegraphics[width=2.1in]{pkts_entropy}}\hfill
+\caption{Packet count prediction accuracy, uncertainty reduction and entropy.}
 \fig{packets-accuracy}
 \end{center}
 \vspace{-2em}
-\end{figure}
+\end{figure*}
 
 \section{Discussion}\sec{discussion}
 
