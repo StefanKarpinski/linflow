@@ -490,7 +490,7 @@ The mean predictor makes a perfect example:
 by guessing the average behavior it actually makes relatively few really bad predictions but makes far more poor to mediocre predictions than it should, and almost no good predictions.
 Our predictor, on the other hand, maintains a fairly steady error rate somewhat above the ideal.
 
-As better point-measure of the quality of predictors, we propose the maximum vertical distance between its p-value \caps{CDF} and the ideal.
+As a better point-measure of the quality of predictors, we propose the maximum vertical distance between its p-value \caps{CDF} and the ideal.
 This is equivalent to choosing the worst possible predetermined significance level for each predictor and evaluating it at that level.
 Under this measure, predictors cannot ``hide'' their errors by shifting them around the p-value range.
 The maximum vertical difference from the ideal for each predictor is shown in \Figure{cdf} with vertical bars.
@@ -499,13 +499,13 @@ The success rate is the complement of the error rate.
 \Figure{success-rates} shows the success rates of various predictions across the six data sets.
 
 \begin{figure}[!b]
-\vspace{-2em}
+\vspace{-1em}
 \begin{center}
 \includegraphics[width=3.5in]{pred_stats}
 \caption{Success rates of various prediction methods.}
 \fig{success-rates}
 \end{center}
-\vspace{-1em}
+\vspace{-0.9em}
 \end{figure}
 
 % \begin{table}[b]
@@ -533,19 +533,33 @@ The success rate is the complement of the error rate.
 % \end{table}
 
 \begin{figure*}[t]
+\vspace{-1em}
 \begin{center}
-\hfill
 \subfloat[Packet count: accuracy]{%
-\includegraphics[width=2.1in]{pkts_accuracy}}\hfill
+\includegraphics[width=2.1in]{pkts_accuracy}}
 \subfloat[Packet count: uncertainty reduction]{%
-\includegraphics[width=2.1in]{pkts_certainty}}\hfill
+\includegraphics[width=2.1in]{pkts_certainty}}
 \subfloat[Packet count: prediction entropy]{%
-\includegraphics[width=2.1in]{pkts_entropy}}\hfill
-\caption{Packet count prediction accuracy, uncertainty reduction and entropy.}
+\includegraphics[width=2.1in]{pkts_entropy}}
+\caption{Packet count predictions: accuracy, uncertainty reduction, and entropy.}
 \fig{packets-accuracy}
 \end{center}
 \vspace{-2em}
 \end{figure*}
+
+Next we turn to the evaluation of packet counts predictions.
+Here we cannot use the K-S test:
+although we have a predicted distribution of possible packet counts, we have only one value to compare it to---the actual number of packets.
+The K-S test is useless for samples of fewer than three values---it cannot invalidate any outcome.
+Instead we use the predicted distributions themselves to yield p-values for each packet count.
+We compute how ``extreme'' each observed packet count value is according to the predicted distribution of packet count values:
+that is, what fraction of the distribution is as large or larger than the observed value.
+If the predictions are accurate, then these ``p-values'' should be uniformly distributed.
+
+Accuracy alone is insufficient, however:
+guessing the mean distribution of packet counts yields a perfectly accurate predictor according to the same criterion.
+What we want, however, is to remain accurate but become more certain about the packet count.
+
 
 \section{Discussion}\sec{discussion}
 
