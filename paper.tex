@@ -33,7 +33,7 @@ University of California, Santa Barbara \vspace{0.35em}\\
 We have observed that when network traffic behaviors are represented in vector spaces as relative frequency histograms of behavioral features, they tend to exhibit a great deal of low-rank linear structure.
 We hypothesize that this structure is due the distribution of flow behaviors following a  finite mixture model.
 Aside from being of theoretical interest, this hypothesis has practical consequences:
-it allows us, among other things, to make detailed predictions about the probabilities of various future flow behaviors after observing only a handful of a flow's initial packets.
+it allows us, among other things, to make detailed, accurate predictions about the probabilities of various future flow behaviors after observing only a handful of a flow's initial packets.
 % We are able to predict the distribution of future packet sizes and inter-packet intervals from only five initial packets with between 70\% and 90\% accuracy across a variety of network traces.
 % For half of flows, we can reduce the uncertainty of our packet count predictions by 80\% or more from the same observations.
 This practical application serves a dual function.
@@ -456,6 +456,7 @@ The best we can hope to do is to predict a \emph{distribution} of possible outco
 When compared with a specific outcome, such a prediction cannot be said to be unequivocally right or wrong.
 How then can we measure the quality of a predicted distribution of outcomes as compared to a single outcome?
 This subtle and difficult issue is central to our evaluation methodology.
+% In what follows, we have performed prediction from observing only five initial packets from each flow.
 
 % To compare the predicted distributions of packet sizes and inter-packet intervals against the observed distributions, we use the most common ``goodness-of-fit'' test:
 
@@ -576,6 +577,24 @@ Most of the time, 50\% of the time, we discard around 80\% of the original uncer
 \Figure{packets-entropy} complements this figure, showing what the actual distribution of entropy values for the six data sets.
 
 \section{Discussion}\sec{discussion}
+
+Our results show that we can predict the packet size distribution and inter-packet interval distribution of flows from only observing a handful of initial packets of each flow.
+Specifically, we have used five initial packets to predict these distributions with between 70\% and 90\% accuracy across a wide variety of network traces.
+Moreover, we can reduce our uncertainty about the number of packets that flows will have by 80\% or more, about half of the time.
+Immediate applications of this ability to accurately predict individual flow behaviors abound.
+Quality of service (\caps{QoS}) schemes attempting to provide high-quality service guarantees for streaming voice and video wireless through wireless networks could use such predictions to know---almost presciently---how much data flows will transmit and how often.
+
+The real importance of this work has little to do with these potential practical applications.
+The ability to predict flow behavior is merely a pleasant side effect of the real breakthrough:
+a detailed statistical model for network-wide flow behaviors.
+The fundamental concept underlying this work is that there are a relatively small collection of ``basic behaviors'' that generate the vast majority of the flow behaviors that we actually see in any particular trace.
+These behaviors are associated with distributions of various flow features:
+packet sizes, inter-packet intervals, \caps{IP} protocol, port numbers and packet counts.
+these features are drawn from these distributions to ``create'' actual flows.
+
+
+% TODO: mention the two dimension structure assumption.
+% TODO: mention the five packets in the results somewhere.
 
 \section{Related Work}\sec{related-work}
 
