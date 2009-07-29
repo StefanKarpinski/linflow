@@ -307,7 +307,7 @@ We use randomly sampled traffic from six different network traces.
 All six traces are freely available from the \caps{CRAWDAD} wireless trace repository~\cite{Yeo06}.
 Details of the traces are shown in \Table{traces}.
 These traces represent a broad cross-section of traffic patterns over time and a reasonable variety of network types.
-Unfortunately, we could not find and freely available commercial hotspot or corporate network traces that were usable for our analysis.
+Unfortunately, we could not find any freely available residential or corporate network traces that were usable for our analysis.
 We randomly sampled 5000 flows from each trace for training and another 5000 flows for testing.
 
 \subsection{Feature-Frequency Representation}\sec{representation}
@@ -347,13 +347,13 @@ Two are essential:
 1) unlike most clustering algorithms, it finds subspaces, not regions;
 2) it is highly robust to outliers and noisy data.
 The algorithm has one parameter:
-the maximum allowable distortion of the data, $\varepsilon^2$.
+the maximum allowable distortion of the data
 We follow Ma's lead when applying the algorithm to \caps{SVD} data and use $\varepsilon^2 = 1$.
 The result of this stage is a segmentation of the data into classes of rows, precisely as our hypothesized model requires.
 
 \subsubsection{Subspace Factorization}\sec{subspace-factorization}
 
-\newfootnote{\svdnnnote}{The first singular vector of a nonnegative matrix is guaranteed to be nonnegative, but the next will generally not be.}
+\newfootnote{\svdnnnote}{The first singular vector of a nonnegative matrix is guaranteed to be nonnegative, but the other singular vectors will have mixed sign.}
 
 The next step towards recovering the structure of the hypothesized model is to determine the hull points of each linear substructure.
 We have determined, as well as we can, which $q_i$ belong to the same structures.
@@ -419,11 +419,11 @@ Given an observation matrix, $X^*_\text{o}$, to perform prediction, we find the 
   \norm{X^*_\text{o} - W^* P_\text{o}}^2_\text{frob}.
 \end{align}
 This is equivalent to minimizing the square error for each observation individually, but optimizing \emph{en masse} allows fast non-negative least squares algorithms to be used~\cite{Benthem04,Kim08:block-pivot}.
-The predicted behavior for these flows is simply weight matrix times the predictable feature matrix:
+The predicted behavior for these flows is simply the weight matrix times the predictable feature matrix:
 \begin{align}
   X^*_\text{p} = W^* P_\text{p}.
 \end{align}
-The rows of $X^*_\text{p}$ are our prediction about the behavior of the flows observed in $X^*_\text{o}$.
+The rows of $X^*_\text{p}$ are our predictions about the behavior of flows observed in $X^*_\text{o}$.
 Each row contains a packet size distribution, an inter-packet interval distribution and a distribution of packet counts.
 
 % With our hypothetical model parameters, $p_j$, extracted from training data, for each test observation, $q^*_\text{o}$, we find nonnegative weights, $w^*_j$, that minimize the squared error
@@ -432,11 +432,10 @@ Each row contains a packet size distribution, an inter-packet interval distribut
 % \end{align}
 % The predicted behavior of the flow is simply 
 
-\subsection{Evaluating Predictions}\sec{evaluation}
-
 \section{Results}\sec{results}
 
 \begin{figure*}[t]
+\vspace{-1em}
 \begin{center}
 \subfloat[Packet sizes: \footnotesize{DARTMOUTH}]{%
 \includegraphics[width=3.545in]{size/dart}}
@@ -453,7 +452,7 @@ This distance serves as a pessimistic measure of each predictor's error rate.
 }
 \fig{cdf}
 \end{center}
-\vspace{-2em}
+\vspace{-1em}
 \end{figure*}
 
 \begin{figure*}[t]
