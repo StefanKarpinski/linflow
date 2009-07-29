@@ -535,14 +535,13 @@ The success rate is the complement of the error rate.
 \begin{figure*}[t]
 \vspace{-1em}
 \begin{center}
-\subfloat[Packet count: accuracy]{%
+\subfloat[Packet count: accuracy]{\fig{packets-accuracy}%
 \includegraphics[width=2.1in]{pkts_accuracy}}
-\subfloat[Packet count: uncertainty reduction]{%
+\subfloat[Packet count: uncertainty]{\fig{packets-uncertainty}%
 \includegraphics[width=2.1in]{pkts_certainty}}
-\subfloat[Packet count: prediction entropy]{%
+\subfloat[Packet count: entropy]{\fig{packets-entropy}%
 \includegraphics[width=2.1in]{pkts_entropy}}
-\caption{Packet count predictions: accuracy, uncertainty reduction, and entropy.}
-\fig{packets-accuracy}
+\caption{Packet count predictions: accuracy, uncertainty reduction, and distribution entropy.}
 \end{center}
 \vspace{-2em}
 \end{figure*}
@@ -557,9 +556,22 @@ that is, what fraction of the distribution is as large or larger than the observ
 If the predictions are accurate, then these ``p-values'' should be uniformly distributed.
 
 Accuracy alone is insufficient, however:
-guessing the mean distribution of packet counts yields a perfectly accurate predictor according to the same criterion.
+guessing the mean distribution of packet counts yields a perfectly accurate predictor according to this criterion.
 What we want, however, is to remain accurate but become more certain about the packet count.
+We can measure this certainty by computing the information-theoretic entropy of each prediction.
+We want our accuracy to remain intact, but the entropy of our predictions to go down as much as possible.
+A related measure is the reduction in uncertainty:
+the exponential of reduction in entropy from the mean predictor.
+This is the fraction of the original ``number'' of possible values that remain after our prediction as compared to before.
+We put ``number'' in quotes because even though entropy is measured in bits, it doesn't count enumerable discrete values like a byte value would.
 
+\Figure{packets-accuracy} shows the \caps{CDF} of p-values of observed packet counts versus our predicted distributions.
+While some of the \caps{CDF}s do not remain perfectly straight along the diagonal, overall the tendency is for our predictions to remain accurate.
+There is some tendency for the observations to fall at the high and low ends of our predictions, indicating that we are in some cases making predictions that are too narrow.
+Still the general adherence to the diagonal shows that oh the whole, the packet predictions remain fairly accurate.
+\Figure{packets-uncertainty} shows that while we are not losing much accuracy, we are gaining a great deal of certainty about what the actual packet count will be.
+Most of the time, 50\% of the time, we lose all but 20\% of our original uncertainty.
+\Figure{packets-entropy} complements this figure, showing what the actual distribution of entropy values for the predictors are.
 
 \section{Discussion}\sec{discussion}
 
