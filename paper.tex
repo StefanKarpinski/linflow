@@ -368,7 +368,7 @@ Reduce the data to the number structural dimensions sought using \caps{SVD}.
 Cluster the reduced data points into one cluster per structural dimension using $k$-means clustering.
 Use cluster membership from this step to combine the original data, leaving only one composite row per desired structural dimension.
 These rows provide a ``denoised'' set of nonnegative spanning vectors that estimate the true low-dimensional subspace from which the data were sampled.
-Finally, we find the intersection of this subspace with the standard simplex in $\R^n$.\,\cddnote
+Finally, we find the intersection of this subspace with the standard simplex in $\R^n$.\cddnote
 This step gives us a set of nonnegative vertices geometrically guaranteed to contain all of the estimated low-dimensional subspace.
 These vectors are used to initialize the \caps{NMF} algorithms, yielding extremely good factorization for small substructures.
 
@@ -451,9 +451,24 @@ This distance serves as a pessimistic measure of each predictor's error rate.
 Brief reflection shows that one cannot hope to accurately predict the exact behavior of flows:
 flows may exhibit the same initial behavior but subsequently behave quite differently.
 The best we can hope to do is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
-When compared with a specific outcome, such a prediction cannot be said to be unequivocally ``wrong'' or ``right.''
-How then can one measure the quality of a predicted distribution of outcomes?
+When compared with a specific outcome, such a prediction cannot be said to be unequivocally right or wrong.
+How then can we measure the quality of a predicted distribution of outcomes as compared to a single outcome?
 This subtle and difficult issue is central to our evaluation methodology.
+
+% To compare the predicted distributions of packet sizes and inter-packet intervals against the observed distributions, we use the most common ``goodness-of-fit'' test:
+
+To evaluate the quality of predicted distributions as compared with a sample that may or may not come from that distribution, we use the single-sample Kolmogorov-Smirnov (K-S) ``goodness-of-fit'' test~\cite{Feller68}.
+The K-S test compares the cumulative distribution function (\caps{CDF}) of a theoretical distribution with the empirical cumulative distribution function of a sample of values, such as packet sizes.
+The test uses the largest absolute difference between the two \caps{CDF}s as a statistic to measure how plausible it is that the sample was drawn from the theoretical distribution.
+The K-S statistic can be transformed into a p-value:
+the probability of obtaining a result at least as extreme as the observed result, assuming that the sample did come from the theoretical distribution.
+
+We evaluate the quality of our packet size and inter-packet interval distribution predictions by looking at the distribution of K-S p-values for the predicted distribution versus the observed sample.
+In theory, if the predictions are all correct, the p-values should be uniformly distributed on the interval [0,1].
+In practice, however, the K-S test is not perfect, and its p-values are not uniform.
+Instead of comparing predictions to the theoretical ideal of uniformity, we use a more pragmatic ideal as a baseline:
+p-values of samples that are actually drawn from the predicted distributions.
+We measure quality of predictions by how much worse that this ideal the predictions are.
 
 \begin{figure*}[t]
 \begin{center}
