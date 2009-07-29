@@ -125,7 +125,7 @@ To combine multiple feature-frequency vectors into a composite description of th
   \text{size} \directsum
   \text{ival} \directsum
   \text{type} \directsum
-  \text{ports} \directsum
+  \text{port} \directsum
   \text{pkts}.
 \end{align}
 The behavior of a feature across a collection of flows can be represented as a matrix where each row represents a flow:
@@ -142,7 +142,7 @@ The overall behavior of the collection of flows then becomes a concatenation of 
   \text{Size} ~
   \text{Ival} ~
   \text{Type} ~
-  \text{Ports} ~
+  \text{Port} ~
   \text{Pkts} ~
   ].
 \end{align}
@@ -318,7 +318,7 @@ inter-packet interval distribution,
 and packet count.
 Packet sizes are already naturally discrete, taking on only values from 1 to the \caps{MTU}, which was 1500 in all of our traces.
 Inter-packet intervals must be quantized, using the scheme described by Karpinski~\emph{et~al.}~\cite{Karpinski08} but using only 500 dimensions instead of 1500.
-This scheme maps bins of interval durations to indices, with the bins starting at the scale of milliseconds, and ramping smoothly up to seconds at the high end of the scale.
+This scheme maps bins of interval durations to indices, with the bins starting at the scale of milliseconds, but ramping smoothly up to seconds at the high end of the scale.
 Intervals of more than ten minutes are considered to start a new flow.
 \caps{IP} protocol type also naturally discrete, with values from 0 to 255, represented by a 256-dimensions histogram vector.
 The feature-frequency vector for a single flow in this case is always just a vector with a single unit entry and all other entries zero.
@@ -347,6 +347,33 @@ We follow Ma's lead when applying their algorithm to \caps{SVD} data and use $\v
 The result of this stage is a segmentation of the data into classes of rows, precisely as our hypothesized model requires.
 
 \subsection{Subspace Factorization}\sec{subspace-factorization}
+
+\newfootnote{\svdnnnote}{The first singular vector of a nonnegative matrix is guaranteed to be nonnegative, but the next will generally not be.}
+
+The next step towards recovering the structure of the hypothesized model is to determine the hull points of each linear substructure.
+We have determined, as well as we can, which of the $q_i$ belong to the same structures.
+Now we must determine the distributions $p_j$ which generate these structures.
+We can use \caps{SVD} to determine the most prominent linear components of each structure, but \caps{SVD} will give us vectors of mixed sign.\svdnnnote
+many invalid points will lie within the convex hull of these vectors.
+\caps{SVD} can give orthogonal vectors spanning the structure, but we must turn to other techniques to recover possible vectors for the $p_j$.
+
+In essence, what we have is a nonnegative matrix factorization (\caps{NMF}) problem:
+if $Q_*$ is a sub-matrix of rows in the same structure class, we want to find nonnegative matrices, $W_*$ and $P_*$, such that $Q_* \approx W_* P_*$;
+% We have the additional constraint that $W_*$ and $P_*$ have unit-sum rows, but that can easily be guaranteed since 
+$P$ is then a vertical concatenation of small $P_*$ matrices, while $W$ is a direct sum of $W_*$ matrices.
+Many \caps{NMF} algorithms have been proposed since Lee and Seung published the first~\cite{Lee01}.
+We use Kim and Park's alternating non-negative least squares (\caps{ANLS}) algorithm~\cite{Kim08}.
+It converges much more rapidly than the Lee and Seung algorithm, but stalls when it gets close to an optimum, so we refine that result by applying the Lee and Seung algorithm.
+
+\newfootnote{\cddnote}{To do this, we use Avis and Fukuda's vertex enumeration algorithm as implemented in Fukuda's excellent CDD library~\cite{Avis92}.}
+
+We find that using standard random \caps{NMF} initialization does not yield factorizations of sufficient quality, so we have developed the following initialization procedure.
+Reduce the data to the number structural dimensions sought using \caps{SVD}.
+Cluster the reduced data points into one cluster per structural dimension using $k$-means clustering.
+Use cluster membership from this step to combine the original data, leaving only one composite row per desired structural dimension.
+These rows provide a ``denoised'' set of nonnegative spanning vectors that should recover the true low-dimensional subspace from which the data were sampled.
+Finally, we find the intersection of this subspace with the standard simplex in $\R^n$.
+This step gives us a set of vertices geometrically guaranteed to contain all of the recovered low-dimensional subspace.\cddnote
 
 \subsection{Flow Behavior Prediction}\sec{flow-behavior-prediction}
 
