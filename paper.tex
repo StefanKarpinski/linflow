@@ -293,14 +293,6 @@ Finally, we must evaluate the quality of these predictions by comparing them to 
 In this section we present the methodology for training and prediction;
 how to evaluate prediction results against actual behavior is left until the next section together with the results.
 
-% It seems wise at this point to address the nature of prediction for highly nondeterministic phenomena like network traffic.
-% Brief reflection shows that one cannot hope to accurately predict the exact behavior of flows:
-% flows may exhibit the same initial behavior but subsequently behave quite differently.
-% The best we can do then is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
-% When compared with a specific outcome, such a prediction cannot be said to be ``wrong'' or ``right.''
-% How then can one measure the quality of a predicted distribution of outcomes?
-% This subtle and difficult issue is central to our evaluation methodology.
-
 \subsection{Data Sets}
 
 We use randomly sampled traffic from six different network traces.
@@ -454,6 +446,14 @@ This distance serves as a pessimistic measure of each predictor's error rate.
 \end{center}
 \vspace{-1em}
 \end{figure*}
+
+% It seems wise at this point to address the nature of prediction for highly nondeterministic phenomena like network traffic.
+Brief reflection shows that one cannot hope to accurately predict the exact behavior of flows:
+flows may exhibit the same initial behavior but subsequently behave quite differently.
+The best we can hope to do is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
+When compared with a specific outcome, such a prediction cannot be said to be unequivocally ``wrong'' or ``right.''
+How then can one measure the quality of a predicted distribution of outcomes?
+This subtle and difficult issue is central to our evaluation methodology.
 
 \begin{figure*}[t]
 \begin{center}
