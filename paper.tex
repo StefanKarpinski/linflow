@@ -331,51 +331,56 @@ Since the potential packet count is unlimited, some approach is needed for limit
 We use the simplest approach and simply cap the packet count at 3000 packets:
 all flows with 3000 or more packets fall into the same histogram bin and are simply considered ``very large.''
 
-\subsection{Subspace Segmentation}\sec{subspace-segmentation}
+\subsection{Model Recovery}\sec{model-recovery}
+
+\subsubsection{Subspace Segmentation}\sec{subspace-segmentation}
 
 Once the data have been expressed in matrix form, the next step is attempt to detect the linear structures seen in \Figure{svd}.
 % Recall that these correspond to the point classes in our hypothesized model.
 We use Ma~\emph{et~al.}'s~\cite{Ma07} algorithm for segmenting multivariate data into a union of subspaces using lossy data coding and compression.
-The essential idea of this algorithm is to compute the number of bits needed to encode the data under various assumed groupings and their implied distributions.
-The grouping which leads to the least overall encode size is the desired segmentation.
-This algorithm has many desirable qualities:
-unlike most clustering algorithms, it finds subspaces, not full-rank regions;
-it is highly robust to outliers and noisy data.
-This algorithm has one parameter:
+The essential idea of this algorithm is to compute the number of bits needed to encode the data under various assumed groupings.
+The grouping which yields the best compression is the desired segmentation.
+This algorithm has many desirable qualities.
+Two are essential:
+1) unlike most clustering algorithms, it finds subspaces, not regions;
+2) it is highly robust to outliers and noisy data.
+The algorithm has one parameter:
 the maximum allowable distortion of the data, $\varepsilon^2$.
-We follow Ma's lead when applying their algorithm to \caps{SVD} data and use $\varepsilon^2 = 1$.
+We follow Ma's lead when applying the algorithm to \caps{SVD} data and use $\varepsilon^2 = 1$.
 The result of this stage is a segmentation of the data into classes of rows, precisely as our hypothesized model requires.
 
-\subsection{Subspace Factorization}\sec{subspace-factorization}
+\subsubsection{Subspace Factorization}\sec{subspace-factorization}
 
 \newfootnote{\svdnnnote}{The first singular vector of a nonnegative matrix is guaranteed to be nonnegative, but the next will generally not be.}
 
 The next step towards recovering the structure of the hypothesized model is to determine the hull points of each linear substructure.
-We have determined, as well as we can, which of the $q_i$ belong to the same structures.
-Now we must determine the distributions $p_j$ which generate these structures.
+We have determined, as well as we can, which $q_i$ belong to the same structures.
+Now we must determine the vertices, $p_j$, which generate these structures.
 We can use \caps{SVD} to determine the most prominent linear components of each structure, but \caps{SVD} will give us vectors of mixed sign.\svdnnnote
-many invalid points will lie within the convex hull of these vectors.
-\caps{SVD} can give orthogonal vectors spanning the structure, but we must turn to other techniques to recover possible vectors for the $p_j$.
+Since negative probability distributions are meaningless, these do not give us a plausible recovery of our model.
+We must turn to other techniques to recover possible vectors for the $p_j$.
 
 In essence, what we have is a nonnegative matrix factorization (\caps{NMF}) problem:
-if $Q_*$ is a sub-matrix of rows in the same structure class, we want to find nonnegative matrices, $W_*$ and $P_*$, such that $Q_* \approx W_* P_*$;
+if $Q_*$ is a sub-matrix of rows in the same structure class, we want to find nonnegative matrices, $W_*$ and $P_*$, such that $Q_* \approx W_* P_*$.~
 % We have the additional constraint that $W_*$ and $P_*$ have unit-sum rows, but that can easily be guaranteed since 
-$P$ is then a vertical concatenation of small $P_*$ matrices, while $W$ is a direct sum of $W_*$ matrices.
+$P$ is a vertical concatenation of the $P_*$ matrices, while $W$ is a direct sum of $W_*$ matrices.
 Many \caps{NMF} algorithms have been proposed since Lee and Seung published the first~\cite{Lee01}.
-We use Kim and Park's alternating non-negative least squares (\caps{ANLS}) algorithm~\cite{Kim08}.
-It converges much more rapidly than the Lee and Seung algorithm, but stalls when it gets close to an optimum, so we refine that result by applying the Lee and Seung algorithm.
+We use Kim and Park's alternating non-negative least squares (\caps{ANLS}) algorithm~\cite{Kim08} first for its rapid initial convergence, but refine the result using Lee and Seung's Euclidean algorithm.
 
 \newfootnote{\cddnote}{To do this, we use Avis and Fukuda's vertex enumeration algorithm as implemented in Fukuda's excellent CDD library~\cite{Avis92}.}
 
-We find that using standard random \caps{NMF} initialization does not yield factorizations of sufficient quality, so we have developed the following initialization procedure.
+We find that using the standard random \caps{NMF} initialization does not yield factorizations of sufficient quality, so we have developed the following initialization procedure.
 Reduce the data to the number structural dimensions sought using \caps{SVD}.
 Cluster the reduced data points into one cluster per structural dimension using $k$-means clustering.
 Use cluster membership from this step to combine the original data, leaving only one composite row per desired structural dimension.
-These rows provide a ``denoised'' set of nonnegative spanning vectors that should recover the true low-dimensional subspace from which the data were sampled.
-Finally, we find the intersection of this subspace with the standard simplex in $\R^n$.
-This step gives us a set of vertices geometrically guaranteed to contain all of the recovered low-dimensional subspace.\cddnote
+These rows provide a ``denoised'' set of nonnegative spanning vectors that estimate the true low-dimensional subspace from which the data were sampled.
+Finally, we find the intersection of this subspace with the standard simplex in $\R^n$.\,\cddnote
+This step gives us a set of nonnegative vertices geometrically guaranteed to contain all of the estimated low-dimensional subspace.
+These vectors are used to initialize the \caps{NMF} algorithms, yielding extremely good factorization for small substructures.
 
 \subsection{Flow Behavior Prediction}\sec{flow-behavior-prediction}
+
+In order to perform flow behavior prediction.
 
 \subsection{Evaluating Predictions}\sec{evaluation}
 
