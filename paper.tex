@@ -590,8 +590,21 @@ a detailed statistical model for network-wide flow behaviors.
 The fundamental concept underlying this work is that there are a relatively small collection of ``basic behaviors'' that generate the vast majority of the flow behaviors that we actually see in any particular trace.
 These behaviors are associated with distributions of various flow features:
 packet sizes, inter-packet intervals, \caps{IP} protocol, port numbers and packet counts.
-these features are drawn from these distributions to ``create'' actual flows.
+these features are drawn from these distributions to ``construct'' actual flows.
+We have treated the features as though they are sampled independently, but no doubt they are not really independent at all.
 
+Part of the reason the model of flow generation as mixtures of a basic set of behaviors is not obvious and has not previously been noted is likely that with convex linear combinations, so many different combinations can be created.
+Moreover, the analytical tools to extract this structure have only existed for a few years.
+In our model recovery procedure, we use a subspace segmentation algorithm published in 2007~\cite{Ma07}, two \caps{NMF} algorithms published in 2001 and 2008, respectively~\cite{Lee01,Kim08:anls}, and a low-rank \caps{NMF} initialization technique published for the first time here.
+And these techniques are still quite immature:
+they will only improve over time, yielding even better recovery of the model parameters.
+Such improvements will immediately improve the performance of the prediction methods employed in this paper.
+
+It is our hope and belief that this model of flow behavior will provide future insights into other aspects of network traffic modeling:
+in particular traffic classification and realistic workload generation.
+The recovered model used in this paper is very close to providing a usable model for traffic generation already.
+The largest missing piece is a model for realistic weight matrices.
+If such applications based on this flow behavior model or other similar ones prove as fruitful as the application of flow behavior prediction, that will provide further evidence of the effectiveness and validity of our proposed model.
 
 % TODO: mention the two dimension structure assumption.
 % TODO: mention the five packets in the results somewhere.
