@@ -463,12 +463,23 @@ The test uses the largest absolute difference between the two \caps{CDF}s as a s
 The K-S statistic can be transformed into a p-value:
 the probability of obtaining a result at least as extreme as the observed result, assuming that the sample did come from the theoretical distribution.
 
+\newfootnote{\ksidealnote}{If the K-S test were ideal, this pragmatic baseline would in fact be uniform. The fact that it is not demonstrates the imperfection of the K-S test.}
+
 We evaluate the quality of our packet size and inter-packet interval distribution predictions by looking at the distribution of K-S p-values for the predicted distribution versus the observed sample.
 In theory, if the predictions are all correct, the p-values should be uniformly distributed on the interval [0,1].
 In practice, however, the K-S test is not perfect, and its p-values are not uniform.
 Instead of comparing predictions to the theoretical ideal of uniformity, we use a more pragmatic ideal as a baseline:
 p-values of samples that are actually drawn from the predicted distributions.
-We measure quality of predictions by how much worse that this ideal the predictions are.
+We measure quality of predictions by how much worse that this ideal the predictions are.\ksidealnote
+
+\Figure{cdf} shows the the \caps{CDF}s p-values for our ideal baseline and the predicted packet size and inter-packet interval distributions.
+For comparison, we also show the p-values results for two simplistic prediction techniques.
+The first alternative prediction technique is to always predicting the mean behavior of the entire training trace.
+This does not perform as badly as one might think it would---always guessing the average is not an abysmal failure.
+The second alternative technique is to just guess what you've already seen.
+We call this ``self-prediction.''
+This is likely the best guess one can make about a flow, without having learned from any other flows:
+just guess that it will keep doing what it has already done.
 
 \begin{figure*}[t]
 \begin{center}
