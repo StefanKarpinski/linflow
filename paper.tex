@@ -440,11 +440,11 @@ Each row contains a packet size distribution, an inter-packet interval distribut
 \caption{%
 Empirical CDFs of Kolmogorov-Smirnov p-values for various predictors of packet size distribution and inter-packet interval distribution for two selected traces. Lower curves are better and the ideal curve provides a lower bound on quality.
 Vertical segments indicate the farthest distance between the ideal and each CDF.
-This distance serves as a pessimistic measure of each predictor's error rate.
+This distance serves as a measure of each predictor's overall error rate.
 }
 \fig{cdf}
 \end{center}
-\vspace{-1em}
+\vspace{-1.5em}
 \end{figure*}
 
 % It seems wise at this point to address the nature of prediction for highly nondeterministic phenomena like network traffic.
@@ -458,28 +458,65 @@ This subtle and difficult issue is central to our evaluation methodology.
 % To compare the predicted distributions of packet sizes and inter-packet intervals against the observed distributions, we use the most common ``goodness-of-fit'' test:
 
 To evaluate the quality of predicted distributions as compared with a sample that may or may not come from that distribution, we use the single-sample Kolmogorov-Smirnov (K-S) ``goodness-of-fit'' test~\cite{Feller68}.
-The K-S test compares the cumulative distribution function (\caps{CDF}) of a theoretical distribution with the empirical cumulative distribution function of a sample of values, such as packet sizes.
+The K-S test compares the cumulative distribution function (\caps{CDF}) of a theoretical distribution with the empirical cumulative distribution function of a sample of values.
 The test uses the largest absolute difference between the two \caps{CDF}s as a statistic to measure how plausible it is that the sample was drawn from the theoretical distribution.
 The K-S statistic can be transformed into a p-value:
-the probability of obtaining a result at least as extreme as the observed result, assuming that the sample did come from the theoretical distribution.
+the probability of obtaining a result at least as extreme as the observed result, assuming that the sample really did come from the theoretical distribution.
 
 \newfootnote{\ksidealnote}{If the K-S test were ideal, this pragmatic baseline would in fact be uniform. The fact that it is not demonstrates the imperfection of the K-S test.}
 
-We evaluate the quality of our packet size and inter-packet interval distribution predictions by looking at the distribution of K-S p-values for the predicted distribution versus the observed sample.
+We evaluate the quality of our packet size and inter-packet interval distribution predictions by exampining the distribution of K-S p-values for the predicted distribution versus the observed sample.
 In theory, if the predictions are all correct, the p-values should be uniformly distributed on the interval [0,1].
 In practice, however, the K-S test is not perfect, and its p-values are not uniform.
-Instead of comparing predictions to the theoretical ideal of uniformity, we use a more pragmatic ideal as a baseline:
+Instead of comparing predictions to the nonexistent theoretical ideal, we use a more pragmatic ideal as a baseline:
 p-values of samples that are actually drawn from the predicted distributions.
 We measure quality of predictions by how much worse that this ideal the predictions are.\ksidealnote
 
-\Figure{cdf} shows the the \caps{CDF}s p-values for our ideal baseline and the predicted packet size and inter-packet interval distributions.
-For comparison, we also show the p-values results for two simplistic prediction techniques.
-The first alternative prediction technique is to always predicting the mean behavior of the entire training trace.
-This does not perform as badly as one might think it would---always guessing the average is not an abysmal failure.
-The second alternative technique is to just guess what you've already seen.
-We call this ``self-prediction.''
-This is likely the best guess one can make about a flow, without having learned from any other flows:
-just guess that it will keep doing what it has already done.
+\Figure{cdf} shows selected p-value \caps{CDF}s for our predicted distributions compared to the ideal baseline.
+For comparison, we also show the results for two simplistic prediction techniques.
+The first alternative---``mean''---always predicts the average behavior of the entire training trace.
+This does not perform as badly as one might think it would:
+always guessing the mean is not an abysmal failure.
+The second alternative---``self''---predicts the behavior that has already been seen.
+% This is the best guess one can make about a flow, without having been trained on any other flows:
+% just guess that it will keep doing what it has already done.
+
+A na\"ive point-measure of the error of a prediction technique is the rate at which it passes the K-S test at a predetermined significance level, such as 1\% or 5\%, as compred to the ideal.
+This is equivalent to measuring the distance above the ideal \caps{CDF} at the 0.01 or 0.05 p-value mark.
+This measure of error is na\"ive because these traditional significance levels are intentionally highly conservative:
+they are chosen so as to incorrectly reject the null only 1\% or 5\% of the time.
+Thus they only reject very bad predictions.
+The mean predictor makes a perfect example:
+by guessing the average behavior it actually makes relatively few really bad predictions but makes far more poor to mediocre predictions than it should, and almost no good predictions.
+Our predictor, on the other hand, maintains a fairly steady error rate somewhat above the ideal.
+
+As better point-measure of the quality of predictors, we propose the maximum vertical distance between its p-value \caps{CDF} and the ideal.
+This is equivalent to choosing the worst possible predetermined significance level for each predictor and evaluating it at that level.
+Under this measure, predictors cannot ``hide'' their errors by shifting them around the p-value range.
+The maximum vertical difference from the ideal for each predictor is shown in \Figure{cdf} with vertical bars.
+The number next to each bar is the length of this distance:
+this is the the overall error rate of the predictor.
+
+\begin{table*}
+\begin{center}
+\small
+\begin{tabular}{|c|c|c|c|c|c|c|}
+
+\hline
+\textbf{Trace} &
+\textbf{Predictor} &
+\textbf{0.01-error} &
+\textbf{0.05-error} &
+\textbf{max-error} \\
+\hline
+
+\end{tabular}
+\caption{Error rates for size and interval predictions for all traces.}
+\tab{traces}
+\end{center}
+\vspace{-2em}
+\end{table*}
+
 
 \begin{figure*}[t]
 \begin{center}
