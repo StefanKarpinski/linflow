@@ -34,6 +34,8 @@ We have observed that when network traffic behaviors are represented in vector s
 We hypothesize that this structure is due the distribution of flow behaviors following a  finite mixture model.
 Aside from being of theoretical interest, this hypothesis has practical consequences:
 it allows us, among other things, to make detailed predictions about the probabilities of various future flow behaviors after observing only a handful of a flow's initial packets.
+% We are able to predict the distribution of future packet sizes and inter-packet intervals from only five initial packets with between 70\% and 90\% accuracy across a variety of network traces.
+% For half of flows, we can reduce the uncertainty of our packet count predictions by 80\% or more from the same observations.
 This practical application serves a dual function.
 It provides a highly useful tool of network management, especially in wireless networks where such predictions can be leveraged to better allocate scarce bandwidth resources.
 However, it also provides evidence that the hypothesized model provides a correct explanation for the observed linear structure in real network traffic.
