@@ -120,7 +120,7 @@ For now, what the reader must know is that each feature is represented by a vect
 We have already given the example of packet size distribution in the introduction.
 The vectors are normalized in that the sum of the coordinates of each feature-frequency vector is unity.
 To combine multiple feature-frequency vectors into a composite description of the overall behavior of the flow, we take the direct sum their representations:\directsumnote
-\begin{align}
+\begin{align}\eqn{flow}
   \text{flow} =
   \text{size} \directsum
   \text{ival} \directsum
@@ -129,7 +129,7 @@ To combine multiple feature-frequency vectors into a composite description of th
   \text{pkts}.
 \end{align}
 The behavior of a feature across a collection of flows can be represented as a matrix where each row represents a flow:
-\begin{align}
+\begin{align}\eqn{Size}
   \text{Size} = \begin{bmatrix}
     \text{size}_1 \\
     \vdots \\
@@ -137,14 +137,14 @@ The behavior of a feature across a collection of flows can be represented as a m
   \end{bmatrix}.
 \end{align}
 The overall behavior of the collection of flows then becomes a concatenation of these feature matrices:
-\begin{align}
-  X = [ ~
-  \text{Size} ~
-  \text{Ival} ~
-  \text{Type} ~
-  \text{Port} ~
-  \text{Pkts} ~
-  ].
+\begin{align}\eqn{X}
+  X = \bracket{ ~
+    \text{Size} ~
+    \text{Ival} ~
+    \text{Type} ~
+    \text{Port} ~
+    \text{Pkts} ~
+  }.
 \end{align}
 It is this matrix, representing the total behavior of a collection of flows, to which we apply our analysis.
 
@@ -365,7 +365,7 @@ if $Q_*$ is a sub-matrix of rows in the same structure class, we want to find no
 % We have the additional constraint that $W_*$ and $P_*$ have unit-sum rows, but that can easily be guaranteed since 
 $P$ is a vertical concatenation of the $P_*$ matrices, while $W$ is a direct sum of $W_*$ matrices.
 Many \caps{NMF} algorithms have been proposed since Lee and Seung published the first~\cite{Lee01}.
-We use Kim and Park's alternating non-negative least squares (\caps{ANLS}) algorithm~\cite{Kim08} first for its rapid initial convergence, but refine the result using Lee and Seung's Euclidean algorithm.
+We use Kim and Park's alternating non-negative least squares (\caps{ANLS}) algorithm~\cite{Kim08:anls} first for its rapid initial convergence, but refine the result using Lee and Seung's Euclidean algorithm.
 
 \newfootnote{\cddnote}{To do this, we use Avis and Fukuda's vertex enumeration algorithm as implemented in Fukuda's excellent CDD library~\cite{Avis92}.}
 
@@ -380,7 +380,55 @@ These vectors are used to initialize the \caps{NMF} algorithms, yielding extreme
 
 \subsection{Flow Behavior Prediction}\sec{flow-behavior-prediction}
 
-In order to perform flow behavior prediction.
+In order to perform flow behavior prediction, we separate the flow features into the observable ones and the ones that must be predicted.
+For example, if we want to predict total flow behavior from some number of initial packets, then we would have the following matrix of observables:
+\begin{align}
+  X_\text{o} = \bracket{ ~
+    \text{Size}_{\text{init}} ~
+    \text{Ival}_{\text{init}} ~
+    \text{Type} ~
+    \text{Port} ~
+  }
+\end{align}
+The matrix of ``predictables'' would be:
+\begin{align}
+  X_\text{p} = \bracket{ ~
+    \text{Size}_{\text{rest}} ~
+    \text{Ival}_{\text{rest}} ~
+    \text{Pkts} ~
+  }
+\end{align}
+We use the packet sizes and inter-packet intervals of the initial packets, together with their \caps{IP} type and port numbers to predict the distribution of packets sizes and inter-packet intervals for the rest of the flow, as well as predicting a distribution of possible of packet counts.
+In order to do this prediction, subspace factorization must be done with the observable and predictable matrices separated.
+That is, subspace factorization must be done on the matrix $[X_\text{o}~X_\text{p}]$.
+% However, we perform our subspace segmentation step on the combined data as in \Equation{X}.
+% Why the difference? We have two pragmatic reasons:
+% 1) the segmentation step seems to work better with the unseparated matrix.
+% 2) we want to apply our prediction technique with different numbers of initial packets;
+% the segmentation step is very slow, while the factorization step is relatively fast;
+% this way we can use the same segmentation result for varying numbers of initial packets.
+
+Our technique is fundamentally similar to fitting a regression line to noisy two-dimensional training data and then using the $x$-coordinates of test data points to linearly predict the $y$-coordinates.
+The main differences are the vastly higher number of dimensions and more complex structure we assume for our data.
+From the training data, we recover our estimated version of the $P$ matrix.
+We split this into its observable and predictable parts: $P_\text{o}$ and $P_\text{p}$.
+Given an observation matrix, $X^*_\text{o}$, to perform prediction, we find the nonnegative matrix of weights, $W_*$, minimizing the squared Frobenius error:
+\begin{align}
+  \norm{X^*_\text{o} - W^* P_\text{o}}^2_\text{frob}.
+\end{align}
+This is equivalent to minimizing the square error for each observation individually, but optimizing \emph{en masse} allows fast non-negative least squares algorithms to be used~\cite{Benthem04,Kim08:block-pivot}.
+The predicted behavior for these flows is simply weight matrix times the predictable feature matrix:
+\begin{align}
+  X^*_\text{p} = W^* P_\text{p}.
+\end{align}
+The rows of $X^*_\text{p}$ are our prediction about the behavior of the flows observed in $X^*_\text{o}$.
+Each row contains a packet size distribution, an inter-packet interval distribution and a distribution of packet counts.
+
+% With our hypothetical model parameters, $p_j$, extracted from training data, for each test observation, $q^*_\text{o}$, we find nonnegative weights, $w^*_j$, that minimize the squared error
+% \begin{align}\textstyle
+%   \norm{q^*_\text{o}-\sum {w^*_j p_j}}^2.
+% \end{align}
+% The predicted behavior of the flow is simply 
 
 \subsection{Evaluating Predictions}\sec{evaluation}
 
