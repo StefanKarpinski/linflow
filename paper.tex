@@ -494,31 +494,43 @@ As better point-measure of the quality of predictors, we propose the maximum ver
 This is equivalent to choosing the worst possible predetermined significance level for each predictor and evaluating it at that level.
 Under this measure, predictors cannot ``hide'' their errors by shifting them around the p-value range.
 The maximum vertical difference from the ideal for each predictor is shown in \Figure{cdf} with vertical bars.
-The number next to each bar is the length of this distance:
-this is the the overall error rate of the predictor.
+This is the the overall error rate of the predictor.
+The success rate is the complement of the error rate.
+\Figure{success-rates} shows the success rates of various predictions across the six data sets.
 
-\begin{table*}
-\begin{center}
-\small
-\begin{tabular}{|c|c|c|c|c|c|c|}
-
-\hline
-\textbf{Trace} &
-\multicolumn{2}{c|}{\textbf{Predicted}} &
-\multicolumn{2}{c|}{\textbf{Self}} &
-\multicolumn{2}{c|}{\textbf{Mean}} \\
-\hline
-
-\input{pred_stats}
-
-\hline
-\end{tabular}
-\caption{Error rates for size and interval predictions for all traces.}
-\tab{traces}
-\end{center}
+\begin{figure}[!b]
 \vspace{-2em}
-\end{table*}
+\begin{center}
+\includegraphics[width=3.5in]{pred_stats}
+\caption{Success rates of various prediction methods.}
+\fig{success-rates}
+\end{center}
+\vspace{-1em}
+\end{figure}
 
+% \begin{table}[b]
+% \begin{center}
+% \small
+% \begin{tabular}{|c|c|c|c|c|c|c|}
+% \hline
+% &
+% \multicolumn{2}{c|}{\textbf{Predicted}} &
+% \multicolumn{2}{c|}{\textbf{Self}} &
+% \multicolumn{2}{c|}{\textbf{Mean}} \\
+% \hline
+% \textbf{Trace} &
+% \textbf{size} & \textbf{ival} &
+% \textbf{size} & \textbf{ival} &
+% \textbf{size} & \textbf{ival} \\
+% \hline
+% \input{pred_stats}
+% \hline
+% \end{tabular}
+% \caption{Error rates for size and interval predictions.}
+% \tab{error-rates}
+% \end{center}
+% \vspace{-1em}
+% \end{table}
 
 \begin{figure*}[t]
 \begin{center}
