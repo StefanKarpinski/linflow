@@ -432,13 +432,17 @@ Each row contains a packet size distribution, an inter-packet interval distribut
 \vspace{-1em}
 \begin{center}
 \subfloat[Packet sizes: \footnotesize{DARTMOUTH}]{%
-\includegraphics[width=3.545in]{size/dart}}
+\includegraphics[width=2.35in]{size/dart}}
+\subfloat[Packet sizes: \footnotesize{IETF 67}]{%
+\includegraphics[width=2.35in]{size/ie67}}
 \subfloat[Packet sizes: \footnotesize{SIGCOMM 2004}]{%
-\includegraphics[width=3.545in]{size/sc04}}
+\includegraphics[width=2.35in]{size/sc04}}
 \subfloat[Inter-packet intervals: \footnotesize{DARTMOUTH}]{%
-\includegraphics[width=3.545in]{ival/dart}}
+\includegraphics[width=2.35in]{ival/dart}}
+\subfloat[Inter-packet intervals: \footnotesize{IETF 67}]{%
+\includegraphics[width=2.35in]{ival/ie67}}
 \subfloat[Inter-packet intervals: \footnotesize{SIGCOMM 2004}]{%
-\includegraphics[width=3.545in]{ival/sc04}}
+\includegraphics[width=2.35in]{ival/sc04}}
 \caption{%
 Empirical CDFs of Kolmogorov-Smirnov p-values for various predictors of packet size distribution and inter-packet interval distribution for two selected traces. Lower curves are better and the ideal curve provides a lower bound on quality.
 Vertical segments indicate the farthest distance between the ideal and each CDF.
@@ -539,11 +543,11 @@ The success rate is the complement of the error rate.
 \vspace{-1em}
 \begin{center}
 \subfloat[Packet count: accuracy]{\fig{packets-accuracy}%
-\includegraphics[width=2.1in]{pkts_accuracy}}
+\includegraphics[width=2.351in]{pkts_accuracy}}
 \subfloat[Packet count: uncertainty]{\fig{packets-uncertainty}%
-\includegraphics[width=2.1in]{pkts_certainty}}
+\includegraphics[width=2.351in]{pkts_certainty}}
 \subfloat[Packet count: entropy]{\fig{packets-entropy}%
-\includegraphics[width=2.1in]{pkts_entropy}}
+\includegraphics[width=2.351in]{pkts_entropy}}
 \caption{Packet count predictions: accuracy, uncertainty reduction, and distribution entropy.}
 \end{center}
 \vspace{-2em}
