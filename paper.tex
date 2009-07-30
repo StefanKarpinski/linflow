@@ -30,15 +30,15 @@ University of California, Santa Barbara \vspace{0.35em}\\
 \maketitle
 
 \begin{abstract}
-We have observed that when network traffic behaviors are represented in vector spaces as relative frequency histograms of behavioral features, they tend to exhibit a great deal of low-rank linear structure.
+We have observed that when network traffic behaviors are represented in vector spaces as relative frequency histograms of behavioral features, they exhibit low-rank linear structure.
 We hypothesize that this structure is due the distribution of flow behaviors following a  finite mixture model.
 Aside from being of theoretical interest, this hypothesis has practical consequences:
 it allows us, among other things, to make detailed, accurate predictions about the probabilities of various future flow behaviors after observing only a handful of a flow's initial packets.
-% We are able to predict the distribution of future packet sizes and inter-packet intervals from only five initial packets with between 70\% and 90\% accuracy across a variety of network traces.
-% For half of flows, we can reduce the uncertainty of our packet count predictions by 80\% or more from the same observations.
-This practical application serves a dual function.
-It provides a highly useful tool of network management, especially in wireless networks where such predictions can be leveraged to better allocate scarce bandwidth resources.
-However, it also provides evidence that the hypothesized model provides a correct explanation for the observed linear structure in real network traffic.
+We are able to predict the distribution of future packet sizes and inter-packet intervals from only five initial packets with between 70\% and 90\% accuracy across a variety of network traces;
+for about half of flows, we can reduce uncertainty about packet count by 80\% or more.
+These practical applications serve dual functions.
+They provide highly useful tools for network management, routing decisions, and quality of service schemes.
+However, they also provide evidence that the hypothesized model gives a correct explanation for the observed linear structure in real network traffic.
 \end{abstract}
 
 \section{Introduction}\sec{introduction}
