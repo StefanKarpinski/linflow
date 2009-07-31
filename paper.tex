@@ -485,7 +485,7 @@ The test uses the largest absolute difference between the \caps{CDF}s as a stati
 The K-S statistic is transformed into a p-value:
 the probability of obtaining a result as extreme as observed, assuming the sample really came from the hypothesized distribution.
 
-\newfootnote{\ksidealnote}{If the K-S test were perfect, the pragmatic baseline would be uniform. The fact that it is not demonstrates the imperfection of the K-S test.}
+\newfootnote{\ksidealnote}{If the K-S test were perfect, the pragmatic ideal baseline would be uniform. The fact that it is not demonstrates the imperfection of the K-S test.}
 
 We evaluate the quality of our packet size and inter-packet interval distribution predictions by examining the distribution of K-S p-values for the predicted distribution versus the observed sample.
 In theory, if the predictions are correct, the p-values should be uniformly distributed on the interval [0,1].
@@ -604,12 +604,26 @@ packet sizes, inter-packet intervals, \caps{IP} protocol, port numbers and packe
 These features are drawn from these distributions to create actual flows.
 % We have treated the features as though they are sampled independently, but no doubt they are not really independent at all.
 
-Part of the reason the model of flow generation as mixtures of a basic set of behaviors is not obvious and has not previously been noted is likely that with convex linear combinations, so many different combinations can be created.
-Moreover, the analytical tools to extract this structure have only existed for a few years.
+Given that the statistical model we have proposed for flow behavior is fairly simple---and finite mixture modeling is a well established field that has been studied since 1894~\cite{McLachlan00}.
+Traditional approaches, however, have only applied to parametric probability distributions.
+The distributions found in network traffic, however, are very distinctly non-parametric.
+They are lumpy, unruly and generally quite ugly.
+This is due largely to the fact that behaviors found in computer networks are not the by-products of smooth, natural phenomena, but rather of man-made artificial systems, following arbitrary, complex and capricious rules.
+
+The numerical techniques needed to tackle non-parametric mixture modeling have only very recently become available.
 In our model recovery procedure, we use a subspace segmentation algorithm published in 2007~\cite{Ma07}, two \caps{NMF} algorithms published in 2001 and 2008, respectively~\cite{Lee01,Kim08:anls}, and a low-rank \caps{NMF} initialization technique published for the first time here.
-And these techniques are still quite immature:
+All of these techniques are still quite immature:
+New \caps{NMF} algorithms have been regularly proposed since Lee and Seung's seminal paper in 2001.
+Their algorithms are still the most well-known, and often the most reliable despite their various shortcomings~\cite{Langville06}.
 they will only improve over time, yielding even better recovery of the model parameters.
 Such improvements will immediately improve the performance of the prediction methods employed in this paper.
+
+% Part of the reason the model of flow generation as mixtures of a basic set of behaviors is not obvious and has not previously been noted is likely that with convex linear combinations, so many different combinations can be created.
+% Moreover, the analytical tools to extract this structure have only existed for a few years.
+% In our model recovery procedure, we use a subspace segmentation algorithm published in 2007~\cite{Ma07}, two \caps{NMF} algorithms published in 2001 and 2008, respectively~\cite{Lee01,Kim08:anls}, and a low-rank \caps{NMF} initialization technique published for the first time here.
+% And these techniques are still quite immature:
+% they will only improve over time, yielding even better recovery of the model parameters.
+% Such improvements will immediately improve the performance of the prediction methods employed in this paper.
 
 It is our hope and belief that this model of flow behavior will provide future insights into other aspects of network traffic modeling:
 in particular traffic classification and realistic workload generation.
@@ -618,7 +632,9 @@ The largest missing piece is a model for realistic weight matrices.
 If such applications based on this flow behavior model or other similar ones prove as fruitful as the application of flow behavior prediction, that will provide further evidence of the effectiveness and validity of our proposed model.
 
 % TODO: mention the two dimension structure assumption.
-% TODO: mention the five packets in the results somewhere.
+
+\vfill
+\pagebreak
 
 \section{Related Work}\sec{related-work}
 
