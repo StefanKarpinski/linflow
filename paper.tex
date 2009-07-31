@@ -387,27 +387,34 @@ These vectors are used to initialize the \caps{NMF} algorithms, yielding extreme
 
 \subsection{Flow Behavior Prediction}\sec{flow-behavior-prediction}
 
-In order to perform flow behavior prediction, we separate the flow features into the observable ones and the ones that must be predicted.
+To predict flow behavior, we must separate flow features into those that are observed and those that must be predicted.
 For example, if we want to predict total flow behavior from some number of initial packets, then we would have the following matrix of observables:
 \begin{align}
   X_\text{o} = \bracket{ ~
-    \text{Size}_{\text{init}} ~
-    \text{Ival}_{\text{init}} ~
+    \text{Size}_\text{init} ~
+    \text{Ival}_\text{init} ~
     \text{Type} ~
     \text{Port} ~
   }
 \end{align}
+Observing five initial packets, $\text{Size}_\text{init}$ is the packet size feature-frequency vector for only those five packets. Similarly, $\text{Ival}_\text{init}$ is the feature-frequency vector for the first four inter-packet intervals.
 The matrix of ``predictables'' would be:
 \begin{align}
   X_\text{p} = \bracket{ ~
-    \text{Size}_{\text{rest}} ~
-    \text{Ival}_{\text{rest}} ~
+    \text{Size}_\text{rest} ~
+    \text{Ival}_\text{rest} ~
     \text{Pkts} ~
   }
 \end{align}
-We use the packet sizes and inter-packet intervals of the initial packets, together with their \caps{IP} type and port numbers to predict the distribution of packets sizes and inter-packet intervals for the rest of the flow, as well as predicting a distribution of possible of packet counts.
-In order to do this prediction, subspace factorization must be done with the observable and predictable matrices separated.
-That is, subspace factorization must be done on the matrix $[X_\text{o}~X_\text{p}]$.
+The matrices $\text{Size}_\text{rest}$ and $\text{Ival}_\text{rest}$ are the analogous  matrices for the rest of the packets in the flows.
+
+From the observed data, $X_\text{o}$, we find the best fitting weight matrix, and use the weights together with our recovered model parameters to estimate probability distributions of features for each flow, using the hypothesized model.
+This technique is fundamentally similar to fitting a regression line to noisy two-dimensional training data and then using the $x$-coordinates of data points to linearly predict the $y$-coordinates.
+The main differences are the vastly higher number of dimensions and more complex structure we assume for our data.
+
+% We use the packet sizes and inter-packet intervals of the initial packets, together with their \caps{IP} type and port numbers to predict the distribution of packets sizes and inter-packet intervals for the rest of the flow, as well as predicting a distribution of possible of packet counts.
+% In order to do this prediction, subspace factorization must be done with the observable and predictable matrices separated.
+% That is, subspace factorization must be done on the matrix $[X_\text{o}~X_\text{p}]$.
 % However, we perform our subspace segmentation step on the combined data as in \Equation{X}.
 % Why the difference? We have two pragmatic reasons:
 % 1) the segmentation step seems to work better with the unseparated matrix.
@@ -415,27 +422,24 @@ That is, subspace factorization must be done on the matrix $[X_\text{o}~X_\text{
 % the segmentation step is very slow, while the factorization step is relatively fast;
 % this way we can use the same segmentation result for varying numbers of initial packets.
 
-Our technique is fundamentally similar to fitting a regression line to noisy two-dimensional training data and then using the $x$-coordinates of test data points to linearly predict the $y$-coordinates.
-The main differences are the vastly higher number of dimensions and more complex structure we assume for our data.
-From the training data, we recover our estimated version of the $P$ matrix.
-We split this into its observable and predictable parts: $P_\text{o}$ and $P_\text{p}$.
-Given an observation matrix, $X^*_\text{o}$, to perform prediction, we find the nonnegative matrix of weights, $W_*$, minimizing the squared Frobenius error:
-\begin{align}
-  \norm{X^*_\text{o} - W^* P_\text{o}}^2_\text{frob}.
-\end{align}
-This is equivalent to minimizing the square error for each observation individually, but optimizing \emph{en masse} allows fast non-negative least squares algorithms to be used~\cite{Benthem04,Kim08:block-pivot}.
-The predicted behavior for these flows is simply the weight matrix times the predictable feature matrix:
-\begin{align}
-  X^*_\text{p} = W^* P_\text{p}.
-\end{align}
-The rows of $X^*_\text{p}$ are our predictions about the behavior of flows observed in $X^*_\text{o}$.
-Each row contains a packet size distribution, an inter-packet interval distribution and a distribution of packet counts.
+\newfootnote{\separationnote}{%
+We use a combined feature matrix for subspace segmentation, but separated observable and predictable features for subspace factorization.
+This is partly because segmentation appears to work better using combined features, but also so that we can reuse the same expensive segmentation computation when performing prediction with different numbers of initial packets.
+}
 
-% With our hypothetical model parameters, $p_j$, extracted from training data, for each test observation, $q^*_\text{o}$, we find nonnegative weights, $w^*_j$, that minimize the squared error
-% \begin{align}\textstyle
-%   \norm{q^*_\text{o}-\sum {w^*_j p_j}}^2.
-% \end{align}
-% The predicted behavior of the flow is simply 
+Let $P^* = \bracketx{P^*_\text{o}~P^*_\text{p}}$ be the recovered model parameter matrix from ~\Section{model-recovery}, with separated observable and predictable features.\separationnote
+From an observation matrix, $X_\text{o}$, we estimate the matrix of weights by minimizing the squared Frobenius error:
+\begin{align}
+  W^* = \text{argmin}_W {\norm{X_\text{o} - W P^*_\text{o}}^2_\text{frob}}.
+\end{align}
+Note that since the weights must be nonnegative, a nonnegative least squares algorithm must be used~\cite{Benthem04,Kim08:block-pivot}.
+From here, we can estimate the underlying feature distributions for the flows:
+\begin{align}
+  Q^* = W^*P.
+\end{align}
+In particular, the ``predictable'' portion, $Q^*_\text{p}$, contains predictions of packet size distribution, inter-packet interval distribution and distribution of packet counts for each flow.
+To evaluate the quality of these predictions, we compare the distributions in $Q^*_\text{p}$ to the matrix, $X_\text{p}$, of actual behaviors of flows.
+The next section explores how to preform this evaluation and how our technique performs compared with other possible predictors. 
 
 \section{Results}\sec{results}
 
