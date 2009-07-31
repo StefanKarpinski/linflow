@@ -465,7 +465,7 @@ This distance serves as a measure of each predictor's overall error rate.
 }
 \fig{cdf}
 \end{center}
-\vspace{-1.6em}
+\vspace{-1.5em}
 \end{figure*}
 
 % It seems wise at this point to address the nature of prediction for highly nondeterministic phenomena like network traffic.
@@ -510,17 +510,39 @@ they are chosen so as to incorrectly reject the null only 1\% or 5\% of the time
 Thus, they only reject the worst possible predictions.
 The mean predictor makes a perfect example:
 by guessing the average behavior it actually makes relatively few really bad predictions but makes far more poor and mediocre predictions than it should, and very few good predictions.
-Our predictor, on the other hand, maintains a fairly steady error rate somewhat above the ideal.
+Our predictor, on the other hand, maintains a fairly steady error rate somewhat above the ideal, and in particular makes as many near-perfect predictions as the ideal.
 
-As a better point-measure of the quality of predictors, we propose the maximum vertical distance between its p-value \caps{CDF} and the ideal.
+\begin{figure*}[!t]
+\vspace{-1em}
+\begin{center}
+\subfloat[CDF of accuracy p-values]{\fig{packets-accuracy}%
+\includegraphics[width=2.351in]{pkts_accuracy}}
+\subfloat[CDF of prediction entropy values]{\fig{packets-entropy}%
+\includegraphics[width=2.351in]{pkts_entropy}}
+\subfloat[CDF of reduction of uncertainty]{\fig{packets-uncertainty}%
+\includegraphics[width=2.351in]{pkts_certainty}}
+\caption{%
+CDFs displaying the accuracy, uncertainty reduction, and entropy of our packet count predictions.
+Ideal behavior in \Figure{packets-accuracy} is as close to the diagonal as possible.
+For \Figure{packets-entropy}, lower entropy is better.
+the vertical lines indicate the entropy of the mean behavior for each trace;
+prediction entropy must be compared to this.
+In \Figure{packets-uncertainty}, the greater the reduction in uncertainty, the better.
+}
+\end{center}
+\vspace{-2em}
+\end{figure*}
+
+As a better point-measure of the quality of a predictor, we propose the maximum vertical distance between its p-value \caps{CDF} and the ideal.
 This is equivalent to choosing the worst possible predetermined significance level for each predictor and evaluating it at that level.
 Under this measure, predictors cannot ``hide'' their errors by shifting them around the p-value range.
 The maximum vertical difference from the ideal for each predictor is shown in \Figure{cdf} with vertical bars.
 This is the the overall error rate of the predictor.
 The success rate is the complement of the error rate.
 \Figure{success-rates} shows the success rates of various predictions across the six data sets.
+Our method predicts size and interval behaviors with accuracy between 70\% and 90\% across all data sets, while the other methods remain well below 50\% few exceptions.
 
-\begin{figure}[!b]
+\begin{figure}[b]
 \vspace{-1em}
 \begin{center}
 \includegraphics[width=3.5in]{pred_stats}
@@ -530,70 +552,39 @@ The success rate is the complement of the error rate.
 \vspace{-0.9em}
 \end{figure}
 
-% \begin{table}[b]
-% \begin{center}
-% \small
-% \begin{tabular}{|c|c|c|c|c|c|c|}
-% \hline
-% &
-% \multicolumn{2}{c|}{\textbf{Predicted}} &
-% \multicolumn{2}{c|}{\textbf{Self}} &
-% \multicolumn{2}{c|}{\textbf{Mean}} \\
-% \hline
-% \textbf{Trace} &
-% \textbf{size} & \textbf{ival} &
-% \textbf{size} & \textbf{ival} &
-% \textbf{size} & \textbf{ival} \\
-% \hline
-% \input{pred_stats}
-% \hline
-% \end{tabular}
-% \caption{Error rates for size and interval predictions.}
-% \tab{error-rates}
-% \end{center}
-% \vspace{-1em}
-% \end{table}
-
-\begin{figure*}[t]
-\vspace{-1em}
-\begin{center}
-\subfloat[Packet count: accuracy]{\fig{packets-accuracy}%
-\includegraphics[width=2.351in]{pkts_accuracy}}
-\subfloat[Packet count: uncertainty]{\fig{packets-uncertainty}%
-\includegraphics[width=2.351in]{pkts_certainty}}
-\subfloat[Packet count: entropy]{\fig{packets-entropy}%
-\includegraphics[width=2.351in]{pkts_entropy}}
-\caption{Packet count predictions: accuracy, uncertainty reduction, and distribution entropy.}
-\end{center}
-\vspace{-2em}
-\end{figure*}
-
 Next we turn to the evaluation of packet counts predictions.
 Here we cannot use the K-S test:
-although we have a predicted distribution of possible packet counts, we have only one value to compare it to---the actual number of packets.
-The K-S test is useless for samples of fewer than three values---it cannot invalidate any outcome.
-Instead we use the predicted distributions themselves to yield p-values for each packet count.
-We compute how ``extreme'' each observed packet count value is according to the predicted distribution of packet count values:
-that is, what fraction of the distribution is as large or larger than the observed value.
+although we have a predicted distribution of possible packet counts, we have only one value to compare it to---the observed number of packets.
+Instead we use the predicted distributions themselves to produce p-values for observed packet counts.
+We compute how ``extreme'' each observed packet count value is in the predicted distribution of values:
+what fraction of the distribution is as large or larger than the observed value.
 If the predictions are accurate, then these ``p-values'' should be uniformly distributed.
 
-Accuracy alone is insufficient, however:
-guessing the mean distribution of packet counts yields a perfectly accurate predictor according to this criterion.
-What we want, however, is to remain accurate but become more certain about the packet count.
-We can measure this certainty by computing the information-theoretic entropy of each prediction.
-We want our accuracy to remain intact, but the entropy of our predictions to go down as much as possible.
-A related measure is the reduction in uncertainty:
-the exponential of reduction in entropy from the mean predictor.
-This is the fraction of the original ``number'' of possible values that remain after our prediction as compared to before.
-We put ``number'' in quotes because even though entropy is measured in bits, it doesn't count enumerable discrete values like a byte value would.
-
 \Figure{packets-accuracy} shows the \caps{CDF} of p-values of observed packet counts versus our predicted distributions.
-While some of the \caps{CDF}s do not remain perfectly straight along the diagonal, overall the tendency is for our predictions to remain accurate.
-There is some tendency for the observations to fall at the high and low ends of our predictions, indicating that we are in some cases making predictions that are too narrow.
-Still the general adherence to the diagonal shows that oh the whole, the packet predictions remain fairly accurate.
-\Figure{packets-uncertainty} shows that while we are not losing much accuracy, we are gaining a great deal of certainty about what the actual packet count will be.
-Most of the time, 50\% of the time, we discard around 80\% of the original uncertainty.
-\Figure{packets-entropy} complements this figure, showing what the actual distribution of entropy values for the six data sets.
+While the \caps{CDF}s do not remain perfectly straight along the diagonal, the general tendency is for our predictions to remain fairly accurate.
+There is some tendency for the observations to fall at the high and low ends of the predicted distributions, indicating that our predictions are somewhat too ``narrow.''
+Nevertheless, the general nearness to the diagonal shows that, on the whole, our packet predictions remain fairly accurate.
+
+Accuracy alone is insufficient, however:
+guessing the mean distribution of packet counts yields a perfectly accurate predictor by this criterion.
+What we want, however, is to remain accurate but become more precise in our predictions of packet count distributions.
+We can measure this precision by computing the information-theoretic entropy of each distribution.
+We want our accuracy to remain intact, but the entropy of our predictions to go down as much as possible.
+
+\Figure{packets-entropy} shows the \caps{CDF}s of entropy values for our predictions across all six data sets.
+The entropy of the average behavior of each set is indicated with a vertical line.
+Entropy of predictions must be evaluated as compared with this.
+In some cases, the entropy of our prediction is greater than the entropy of the average behavior.
+In such cases, we can simply use the average behavior as a prediction instead.
+Most of the time, however, we are gaining a great deal of information about what the actual packet count will be:
+entropy is reduced to less than two bits or less about half of the time.
+
+A closely related measure to entropy is the reduction in uncertainty.
+The uncertainty of a prediction is two raised to the power of its entropy:
+the number of possible choices the bits of entropy can encode.
+The reduction in uncertainty is the fraction of the mean behavior's uncertainty that remains when we use our predictor.
+This is the fraction of the original ``number'' of possible values that remain after our prediction as compared to before.
+\Figure{packets-uncertainty} shows that across the six data sets, half of the time we discard between 75\% and 90\% of the original uncertainty.
 
 \section{Discussion}\sec{discussion}
 
