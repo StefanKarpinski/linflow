@@ -46,9 +46,9 @@ However, they also provide evidence that the hypothesized model gives a correct 
 \newfootnote{\flownote}{We use the common definition of a \textit{flow} as a sequence of packets sharing the same  ``5-tuple'': IP protocol type, source and destination nodes, and TCP/UDP port numbers.}
 
 This paper is the first in a three-part series employing a numerical linear algebra techniques to understand and analyze network traffic patterns at a detailed level of individual flows and packets.\flownote
-All three papers employ the same analytical framework but investigate different fundamental applications of traffic modeling:
+All three papers employ the same analytical approach but investigate different fundamental applications of traffic modeling:
 prediction, classification and generation.
-In this paper we first present the framework and then demonstrate how it can predict the behavior of individual flows from the observation of only a handful of their initial packets.
+In this paper we present our hypothesis and demonstrate how it can be used to predict the behavior of individual flows from observing only a handful of initial packets.
 % The following papers will focus on classification of flows according to application type and realistic workload generation.
 
 This work begins with a particular way of representing flow behaviors as vectors.
@@ -93,8 +93,8 @@ The rest of this paper is organized as follows.
 In \Section{background}, we provide some background and the present the observations which motivate this work.
 Our model and hypothesis about flow behavior is presented in \Section{hypothesis}.
 The experimental methodology for testing this hypothesis is presented in \Section{methodology} while the results follow in \Section{results}.
-\Section{discussion} discusses the meaning and impact of our results and
-\Section{related-work} gives context for this work in relation prior research.
+\Section{discussion} discusses the meaning and impact of these results and
+\Section{related-work} gives context for this research in relation prior work.
 We conclude with final remarks in \Section{conclusions}.
 
 \section{Background \& Motivation}\sec{background}\sec{motivation}
@@ -116,12 +116,12 @@ We conclude with final remarks in \Section{conclusions}.
 
 \newfootnote{\directsumnote}{The direct sum is the vector space analogue of a cross product of sets.}
 
-Before we can present our motivating observation about the linear structure of network traffic, we must explain how flow behaviors are represented as feature-frequency vectors. spaces.
-The low-level details of this representation are given in \Section{representation}.
-For now, what the reader must know is that each feature is represented by a vector where each possible value of the feature correspond to a dimension and the normalized frequency of that value occurring is the corresponding coordinate in the vector.
+Before we can present our motivating observation about the linear structure of network traffic, we must explain how flow behaviors are represented as feature-frequency vectors. The low-level details of this representation are given in \Section{representation}.
+For now, what the reader must know is that each feature is represented by a vector where each dimension corresponds to a possible value of the feature;
+the coordinates of the vector are the normalized frequencies of the corresponding feature values.
 We have already given the example of packet size distribution in the introduction.
-The vectors are normalized in that the sum of the coordinates of each feature-frequency vector is unity.
-To combine multiple feature-frequency vectors into a composite description of the overall behavior of the flow, we take the direct sum their representations:\directsumnote
+Vectors are normalized so the coordinates of each feature-frequency vector have unit sum.
+To combine multiple feature-frequency vectors into a composite description of the overall behavior of a flow, we take the direct sum individual feature representations:\directsumnote
 \begin{align}\eqn{flow}
   \text{flow} =
   \text{size} \directsum
@@ -130,7 +130,7 @@ To combine multiple feature-frequency vectors into a composite description of th
   \text{port} \directsum
   \text{pkts}.
 \end{align}
-The behavior of a feature across a collection of flows can be represented as a matrix where each row represents a flow:
+The behavior of a feature across a collection of flows can be expressed as a matrix where each row represents a flow:
 \begin{align}\eqn{Size}
   \text{Size} = \begin{bmatrix}
     \text{size}_1 \\
@@ -150,7 +150,7 @@ The overall behavior of the collection of flows then becomes a concatenation of 
 \end{align}
 It is this matrix, representing the total behavior of a collection of flows, to which we apply our analysis.
 
-\newfootnote{\svdnote}{More precisely, the product of the first $k$ columns of $U$ with the first $k$ rows of $\trans{V}$ is a Frobenius-optimal rank-$k$ approximation of $X$.}
+\newfootnote{\svdnote}{More precisely, the product of the first $k$ columns of $US$ with the first $k$ rows of $\trans{V}$ is a Frobenius-optimal rank-$k$ approximation of $X$.}
 
 \newfootnote{\projectionnote}{We could normalize the vectors to unit length, but then our projection would be spherical, artificially introducing curvature into our visualization.}
 
@@ -165,12 +165,12 @@ Among the useful properties of this factorization, is that the first $k$ columns
 This property allows us to visualize the structure of $X$ using initial columns of $US$---and this is precisely what we do.
 However, it must be done in a particular way.
 First determine an appropriate value for $k$.
-Here we take the number of dimensions necessary to account for 75\% of the variance seen in $X$;
+We use the number of dimensions necessary to account for 75\% of the variance seen in $X$;
 other approaches work well too.
 Discarding the rest of the dimensions has the effect of ``denoising'' the data.
-The vectors of the remaining $k$-dimensional reduction of $X$ may have different magnitudes, but we are only interested in direction, since vectors differing only be magnitude lie in the same one-dimensional subspace.
+The vectors of the remaining $k$-dimensional reduction of $X$ may have different magnitudes, but we are only interested in direction, since vectors differing only by magnitude lie in the same one-dimensional subspace.
 Therefore, we project each row vector through the origin onto the unit-sum hyperplane.\projectionnote
-It is the coordinates of this reduced, projected data which exhibit clear linear structure.
+It is the coordinates of this reduced, projected data which exhibit linear structure.
 
 \Figure{svd} shows scatter plots of most significant two coordinates when this procedure is applied to a random sample of 5000 flows from each of six independent traffic traces.
 Clear linear structure is visible in all six traces:
@@ -182,7 +182,7 @@ behaviors on higher-dimensional subspaces appear as ``smears.''
 The presence of linear structure in the matrix representations of several independent traffic traces immediately raises two significant questions.
 The existential question: \emph{Why does this linear structure exist?}
 Followed, of course, by the practical question: \emph{How can we exploit this structure?}
-Neither question can be answered fully in a single paper, but we will begin to address the existential problem in the next section.
+Neither question can be answered fully in a single paper, but we will attempt to address the existential problem in the next section.
 In the rest of this paper we apply this insight to the eminently practical problem of predicting the behavior of individual flows from the observation of only a few of their initial packets.
 
 \section{Model \& Hypothesis}\sec{model}\sec{hypothesis}
@@ -256,7 +256,7 @@ UCSD engineering building \\
 \vspace{-2em}
 \end{table*}
 
-Our answer to the question of why low-dimensional linear structure appears in the feature-frequency representation of network traffic can be expressed as a hypothetical statistical model for flow behavior.
+Our answer to the question of why low-dimensional linear structure appears in the feature-frequency representation of network traffic can be expressed as the hypothesis that flow behavior follows a specific statistical model.
 % A mixture model, to be specific.
 We propose viewing each flow as having a probability distribution of possible behaviors it could exhibit.
 % We propose that the behavior of each flow is drawn from a probability distribution on a space possible behaviors.
@@ -273,12 +273,17 @@ Writing $Q_{ik} = q_i(k)$, $W_{ij} = w_{ij}$, and $P_{jk} = p_j(k)$, we have:
   Q = WP.
 \end{align}
 The number of basic behaviors, $r$, is the maximum possible rank of the feature distribution matrix, $Q$.
-Moreover, we can partition the rows of $P$ into disjoint classes such that $w_{ij_1}$ and $w_{ij_2}$ are both non-zero only if $j_1$ and $j_2$ are in the same class.
-Thus, each row of $Q$ is associated with exactly one class, and all the points associated with a class lie in the subspace spanned by its rows in $P$.
+Moreover, we can partition the rows of $P$ into classes such that $w_{ij_1}$ and $w_{ij_2}$ are both non-zero only if $j_1$ and $j_2$ are in the same class.
+Thus, each row of $Q$ is associated with exactly one class, and all the points associated with a class lie in the subspace spanned by its associated rows in $P$.
+Of course, even if this model is true, actual observed behaviors will be sampled from the ideal distributions of $Q$, producing an observation matrix, $X$, with a great deal of noise.
+% In particular, for features with vary small samples, the amount of noise introduced is quite large.
+Moreover, we expect that there should be many outliers:
+network traffic is such a complex phenomenon that no single model will explain all observations.
 
-This model explains the structures found in \Figure{svd}.
-Points lying along the same structure are in the same class, and each structure is ``generated'' by a small set of vertices:
-the points belonging to a structure are near the convex hull generated by those vertices.
+Despite these caveats, this model explains the structures found in \Figure{svd}.
+Points along the same low-rank structure are in the same class.
+Each structure is ``generated'' by a small set of vertices:
+the points belonging to the structure are near the hull of its vertices.
 However, this is only one possible hypothesis that fits the data.
 Like any hypothesis, it must be tested.
 The rest of this paper, aside from providing a practical application, serves as a hypothesis test:
@@ -289,11 +294,11 @@ If the recovered model can make accurate predictions, this provides evidence tha
 
 Our experimental procedure has three parts:
 training, prediction and evaluation.
-For training, we take a sample of network trace traffic and attempt to recover the model hypothesized in \Section{hypothesis} from it.
-We use the trained model to predict behaviors of a separate set of flows from the same trace, using only knowledge of a few initial packets of each flow.
-Finally, we must evaluate the quality of these predictions by comparing them to the actual behavior of those flows.
+For training, we take samples of network traces and attempt to recover the parameters of the model hypothesized in \Section{hypothesis}.
+We use the recovered model to predict behaviors of a separate set of flows from the same trace, using only knowledge of five initial packets from each flow.
+Finally, we must evaluate the quality of these predictions by comparing them against the actual behavior of those flows.
 In this section we present the methodology for training and prediction;
-how to evaluate prediction results against actual behavior is left until the next section together with the results.
+how to evaluate prediction results is described together with the results in \Section{results}.
 
 \subsection{Data Sets}
 
@@ -303,6 +308,7 @@ Details of the traces are shown in \Table{traces}.
 These traces represent a broad cross-section of traffic patterns over time and a reasonable variety of network types.
 Unfortunately, we could not find any freely available residential or corporate network traces that were usable for our analysis.
 We randomly sampled 5000 flows from each trace for training and another 5000 flows for testing.
+Since the initial five packets are used for prediction, we consider only flows with at least five packets.
 
 \subsection{Feature-Frequency Representation}\sec{representation}
 
@@ -312,16 +318,21 @@ inter-packet interval distribution,
 \caps{IP} protocol type,
 \caps{TCP/UDP} port numbers,
 and packet count.
-Packet sizes are already naturally discrete, taking on only values from 1 to the \caps{MTU}, which was 1500 in all of our traces.
+%
+Packet sizes are naturally discrete, taking on values from 1 to the \caps{MTU}, which was 1500 in all of our traces.
+%
 Inter-packet intervals must be quantized, using the scheme described by Karpinski~\emph{et~al.}~\cite{Karpinski08} but using only 500 dimensions instead of 1500.
 This scheme maps bins of interval durations to indices, with the bins starting at the scale of milliseconds, but ramping smoothly up to seconds at the high end of the scale.
 Intervals of more than ten minutes are considered to start a new flow.
-\caps{IP} protocol type also naturally discrete, with values from 0 to 255, represented by a 256-dimensions histogram vector.
-The feature-frequency vector for a single flow in this case is always just a vector with a single unit entry and all other entries zero.
+%
+\caps{IP} protocol type is also naturally discrete, with values from 0 to 255, represented by a 256-dimensional vector.
+The feature-frequency vector for a single flow is always just a vector with a single unit entry and zeros elsewhere.
+%
 Port numbers are naturally discrete as well, but the range of port numbers (0-65535) is too large for practical representation using a full histogram.
 Instead, we represent port numbers by their remainder modulo 1000.
 Port numbers are sufficiently spread out that this still provides ample distinction between traffic types.
 Moreover, since the direction of a flow is generally uninteresting, we represent both source and destination in a single vector containing two values.
+%
 We also represent the packet count of each flow.
 Since the potential packet count is unlimited, some approach is needed for limiting the dimension of this frequency representation.
 We use the simplest approach and simply cap the packet count at 3000 packets:
