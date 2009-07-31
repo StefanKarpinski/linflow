@@ -423,7 +423,7 @@ The main differences are the vastly higher number of dimensions and more complex
 % this way we can use the same segmentation result for varying numbers of initial packets.
 
 \newfootnote{\separationnote}{%
-We use a combined feature matrix for subspace segmentation, but separated observable and predictable features for subspace factorization.
+We use an unseparated feature matrix for subspace segmentation, but separated observable and predictable features for subspace factorization.
 This is partly because segmentation appears to work better using combined features, but also so that we can reuse the same expensive segmentation computation when performing prediction with different numbers of initial packets.
 }
 
@@ -540,7 +540,7 @@ The maximum vertical difference from the ideal for each predictor is shown in \F
 This is the the overall error rate of the predictor.
 The success rate is the complement of the error rate.
 \Figure{success-rates} shows the success rates of various predictions across the six data sets.
-Our method predicts size and interval behaviors with accuracy between 70\% and 90\% across all data sets, while the other methods remain well below 50\% few exceptions.
+Our method predicts size and interval behaviors with accuracy between 70\% and 90\% across all data sets, while the other methods remain well below 50\% with few exceptions.
 
 \begin{figure}[b]
 \vspace{-1em}
@@ -588,11 +588,12 @@ This is the fraction of the original ``number'' of possible values that remain a
 
 \section{Discussion}\sec{discussion}
 
-Our results show that we can predict the packet size distribution and inter-packet interval distribution of flows from only observing a handful of initial packets of each flow.
+Our results show that we can predict the packet size distribution and inter-packet interval distribution of flows from only a handful of initial packets of each flow.
 Specifically, we have used five initial packets to predict these distributions with between 70\% and 90\% accuracy across a wide variety of network traces.
 Moreover, we can reduce our uncertainty about the number of packets that flows will have by 80\% or more, about half of the time.
 Immediate applications of this ability to accurately predict individual flow behaviors abound.
-Quality of service (\caps{QoS}) schemes attempting to provide high-quality service guarantees for streaming voice and video wireless through wireless networks could use such predictions to know---almost presciently---how much data flows will transmit and how often.
+Quality of service (\caps{QoS}) schemes attempting to provide high-quality service guarantees for streaming voice and video wireless through wireless networks could use such predictions to know, almost presciently, how much data flows will transmit and how often.
+Routers could use information about data rates from these predictions to load-balance across multiple possible routes towards their ultimate destinations.
 
 The real importance of this work has little to do with these potential practical applications.
 The ability to predict flow behavior is merely a pleasant side effect of the real breakthrough:
