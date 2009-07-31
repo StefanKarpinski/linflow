@@ -93,8 +93,7 @@ The rest of this paper is organized as follows.
 In \Section{background}, we provide some background and the present the observations which motivate this work.
 Our model and hypothesis about flow behavior is presented in \Section{hypothesis}.
 The experimental methodology for testing this hypothesis is presented in \Section{methodology} while the results follow in \Section{results}.
-\Section{discussion} discusses the meaning and impact of these results and
-\Section{related-work} gives context for this research in relation prior work.
+\Section{discussion} discusses the meaning and impact of these results and gives context for this research in relation prior work.
 We conclude with final remarks in \Section{conclusions}.
 
 \section{Background \& Motivation}\sec{background}\sec{motivation}
@@ -586,7 +585,7 @@ The reduction in uncertainty is the fraction of the mean behavior's uncertainty 
 This is the fraction of the original ``number'' of possible values that remain after our prediction as compared to before.
 \Figure{packets-uncertainty} shows that across the six data sets, half of the time we discard between 75\% and 90\% of the original uncertainty.
 
-\section{Discussion}\sec{discussion}
+\section{Discussion \& Related Work}\sec{discussion}\sec{related-work}
 
 The results demonstrate that we can predict the packet size distribution, inter-packet interval distribution, and packet count distribution of flows from only a handful of initial packets of each flow.
 Specifically, we have used five initial packets to predict these distributions with between 70\% and 90\% accuracy across a wide variety of network traces.
@@ -602,10 +601,11 @@ The fundamental concept underlying this work is that there are a relatively smal
 These behaviors are associated with distributions of various flow features:
 packet sizes, inter-packet intervals, \caps{IP} protocol, port numbers and packet counts.
 These features are drawn from these distributions to create actual flows.
-% We have treated the features as though they are sampled independently, but no doubt they are not really independent at all.
+We have treated the features as though they are sampled independently, but this is merely a simplification that allows us to estimate model parameters with computational techniques available today.
+The fact that this estimation provides a model which can reasonably well predict the behaviors of flows demonstrates that the concept of modeling flows as a mixture of basic behaviors is viable, even if the details of how we represent flow features remains open to improvement.
 
-Given that the statistical model we have proposed for flow behavior is fairly simple---and finite mixture modeling is a well established field that has been studied since 1894~\cite{McLachlan00}.
-Traditional approaches, however, have only applied to parametric probability distributions.
+Given that the statistical model we have proposed for flow behavior is fairly simple---and finite mixture modeling is a well established field that has been studied since 1894~\cite{McLachlan00}---one may very well ask why this basic linear structure of network traffic has not been discovered before.
+Part of the reason is that traditional approaches to mixture modeling have been applicable to parametric probability distributions.
 The distributions found in network traffic, however, are very distinctly non-parametric.
 They are lumpy, unruly and generally quite ugly.
 This is due largely to the fact that behaviors found in computer networks are not the by-products of smooth, natural phenomena, but rather of man-made artificial systems, following arbitrary, complex and capricious rules.
@@ -628,15 +628,12 @@ Such improvements will immediately improve the performance of the prediction met
 It is our hope and belief that this model of flow behavior will provide future insights into other aspects of network traffic modeling:
 in particular traffic classification and realistic workload generation.
 The recovered model used in this paper is very close to providing a usable model for traffic generation already.
-The largest missing piece is a model for realistic weight matrices.
+The largest missing piece is a model for generating realistic weight matrices.
+With realistic basic behavior matrices extracted from traces and a means of generating realistic weight matrices, we have immediately a model for generating realistic traffic traces.
+Earlier research has show that it is sufficient for simulation purposes to generate flows with realistic packet size distributions, inter-packet interval distributions, and packet counts by repeatedly sampling packets from these distributions~\cite{Karpinski07:realism,Karpinski07:cbr-failure}.
 If such applications based on this flow behavior model or other similar ones prove as fruitful as the application of flow behavior prediction, that will provide further evidence of the effectiveness and validity of our proposed model.
 
 % TODO: mention the two dimension structure assumption.
-
-\vfill
-\pagebreak
-
-\section{Related Work}\sec{related-work}
 
 \section{Conclusions}\sec{conclusions}
 
