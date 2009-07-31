@@ -342,18 +342,18 @@ all flows with 3000 or more packets fall into the same histogram bin and are sim
 
 \subsubsection{Subspace Segmentation}\sec{subspace-segmentation}
 
-Once the data have been expressed in matrix form, the next step is attempt to detect the linear structures seen in \Figure{svd}.
+Once the data have been expressed in matrix form, the next step is try to detect the linear structures seen in \Figure{svd}.
 % Recall that these correspond to the point classes in our hypothesized model.
-We use Ma~\emph{et~al.}'s~\cite{Ma07} algorithm for segmenting multivariate data into a union of subspaces using lossy data coding and compression.
-The essential idea of this algorithm is to compute the number of bits needed to encode the data under various assumed groupings.
+We use Ma~\emph{et~al.}'s algorithm for segmenting multivariate data into a union of subspaces using lossy data coding and compression~\cite{Ma07}.
+The essential idea of this algorithm is to compute the number of bits needed to encode the data under various groupings.
 The grouping which yields the best compression is the desired segmentation.
-This algorithm has many desirable qualities.
-Two are essential:
+This algorithm has several desirable qualities.
+Two are essential for us:
 1) unlike most clustering algorithms, it finds subspaces, not regions;
 2) it is highly robust to outliers and noisy data.
 The algorithm has one parameter:
-the maximum allowable distortion of the data
-We follow Ma's lead when applying the algorithm to \caps{SVD} data and use $\varepsilon^2 = 1$.
+the maximum allowable distortion of the data.
+We follow the authors when applying the algorithm to \caps{SVD} data and use $\varepsilon^2 = 1$.
 The result of this stage is a segmentation of the data into classes of rows, precisely as our hypothesized model requires.
 
 \subsubsection{Subspace Factorization}\sec{subspace-factorization}
