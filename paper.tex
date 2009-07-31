@@ -640,6 +640,20 @@ While understanding aggregate traffic behavior in core networks is certainly use
 % they will only improve over time, yielding even better recovery of the model parameters.
 % Such improvements will immediately improve the performance of the prediction methods employed in this paper.
 
+\section{Conclusions}\sec{conclusions}
+
+From a relatively simple observation about apparent linear structure in the feature-frequency of network traffic traces, we have proposed that flow behaviors traces follow a specific type of statistical model:
+a non-parametric finite mixture model.
+In this model, each flow's behavior distribution is a convex linear combination of a few ``basic behaviors,'' and the features of the flow are drawn from the resulting hybrid distribution of behaviors.
+We are able to use recently developed data mining tools to recover estimates of the model's parameter matrix from training trace data.
+Using the recovered trace parameters, we can perform prediction on flow behaviors to predict their behavior from observing only a few initial packets of each flow.
+In our experiments, we observe only five initial packets of each flow and succeed in predicting these distribution of packet sizes and inter-packet intervals with between 70\% and 90\% accuracy across a wide variety of network traces.
+Also, half of the time, we can reduce our uncertainty about the number of packets that flows will have by 80\% or more, giving very important early information about the likely duration of each flow.
+Combining these distribution predictions, one can readily predict distributions for the duration and total data volume of each flow.
+
+Despite the obvious immediate practical applications of the prediction techniques demonstrated here, the real importance of this work lies in the theoretical underpinnings.
+The proposed model of flow behavior as a finite mixture model is the first detailed statistical model of universal flow behavior.
+Such a model stands to have great impact on the networking community.
 It is our hope and belief that our model of flow behavior will provide future insights into other aspects of network traffic modeling:
 in particular traffic classification and realistic workload generation.
 The recovered model used in this paper is very close to providing a usable model for traffic generation already.
@@ -648,11 +662,11 @@ With realistic basic behavior matrices extracted from traces and a means of gene
 Earlier research has show that it is sufficient for simulation purposes to generate flows with realistic packet size distributions, inter-packet interval distributions, and packet counts, repeatedly sampling packets from these distributions~\cite{Karpinski07:realism,Karpinski07:cbr-failure}.
 If such applications based on this flow behavior model or other similar ones prove as fruitful as the present application to flow behavior prediction, those results will provide further evidence of the effectiveness and validity of our proposed model.
 
-% TODO: mention the two dimension structure assumption.
+% The next obvious application is to use this structure to perform better traffic analysis and classification, but ultimately the most powerful use of such modeling is to generate realistic workload for network simulations.
+% As noted by other research~\cite{Kaprinski07:realism,Karpinski07:cbr-failure}, the lack of realistic models for wireless workload
 
-\section{Conclusions}\sec{conclusions}
-
-
+\vfill
+\pagebreak
 
 \bibliography{IEEE,references}
 
