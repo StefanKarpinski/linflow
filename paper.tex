@@ -252,7 +252,7 @@ UCSD engineering building \\
 \caption{Traffic traces used for analysis and experiments.}
 \tab{traces}
 \end{center}
-\vspace{-2em}
+\vspace{-2.5em}
 \end{table*}
 
 Our answer to the question of why low-dimensional linear structure appears in the feature-frequency representation of network traffic can be expressed as the hypothesis that flow behavior follows a specific statistical model.
@@ -362,6 +362,10 @@ The result of this stage is a segmentation of the $q_i$ into classes associated 
 The next step towards recovering the structure of the hypothesized model is to determine the hull points of each linear structure.
 In the previous step, we have determined, as well as we can, which $q_i$ belong to the same structures.
 Now we must determine the vertices, $p_j$, which generate these structures.
+The first question is how many ``real'' dimensions each structure has.
+Various methods exist for trying to determine this.
+In \Figure{svd} it appears that most of our structures are nearly two-dimensional.
+Despite attempting many more sophisticated techniques for automatically determining structure dimensionality, we have found that best prediction quality comes from simply assuming that each structure is two-dimensional.
 We can use \caps{SVD} to determine the most prominent linear components of each structure, but \caps{SVD} will give us vectors of mixed sign.\svdnnnote
 Since negative probability distributions are meaningless, these do not give us a plausible recovery of our model.
 We must turn to other techniques to recover possible vectors for the $p_j$.
@@ -647,6 +651,8 @@ If such applications based on this flow behavior model or other similar ones pro
 % TODO: mention the two dimension structure assumption.
 
 \section{Conclusions}\sec{conclusions}
+
+
 
 \bibliography{IEEE,references}
 
