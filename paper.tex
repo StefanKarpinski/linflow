@@ -588,21 +588,21 @@ This is the fraction of the original ``number'' of possible values that remain a
 
 \section{Discussion}\sec{discussion}
 
-Our results show that we can predict the packet size distribution and inter-packet interval distribution of flows from only a handful of initial packets of each flow.
+Our results show that we can predict the packet size distribution, inter-packet interval distribution, and packet count distribution of flows from only a handful of initial packets of each flow.
 Specifically, we have used five initial packets to predict these distributions with between 70\% and 90\% accuracy across a wide variety of network traces.
-Moreover, we can reduce our uncertainty about the number of packets that flows will have by 80\% or more, about half of the time.
+Moreover, about half of the time, we can reduce our uncertainty about the number of packets that flows will have by 80\% or more.
 Immediate applications of this ability to accurately predict individual flow behaviors abound.
-Quality of service (\caps{QoS}) schemes attempting to provide high-quality service guarantees for streaming voice and video wireless through wireless networks could use such predictions to know, almost presciently, how much data flows will transmit and how often.
+Quality of service (\caps{QoS}) schemes attempting to provide high-quality service guarantees for streaming voice and video wireless through wireless networks could use such predictions to know, almost presciently, how much data flows are likely to transmit and how often.
 Routers could use information about data rates from these predictions to load-balance across multiple possible routes towards their ultimate destinations.
 
-The real importance of this work has little to do with these potential practical applications.
-The ability to predict flow behavior is merely a pleasant side effect of the real breakthrough:
+While these potential applications are useful, the real significance of this work lies elsewhere.
+Predicting flow behavior is merely a pleasant side effect of the real breakthrough:
 a detailed statistical model for network-wide flow behaviors.
-The fundamental concept underlying this work is that there are a relatively small collection of ``basic behaviors'' that generate the vast majority of the flow behaviors that we actually see in any particular trace.
+The fundamental concept underlying this work is that there are a relatively small collection of ``basic behaviors'' that generate the vast majority of the flow behaviors found in any particular trace.
 These behaviors are associated with distributions of various flow features:
 packet sizes, inter-packet intervals, \caps{IP} protocol, port numbers and packet counts.
-these features are drawn from these distributions to ``construct'' actual flows.
-We have treated the features as though they are sampled independently, but no doubt they are not really independent at all.
+These features are drawn from these distributions to create actual flows.
+% We have treated the features as though they are sampled independently, but no doubt they are not really independent at all.
 
 Part of the reason the model of flow generation as mixtures of a basic set of behaviors is not obvious and has not previously been noted is likely that with convex linear combinations, so many different combinations can be created.
 Moreover, the analytical tools to extract this structure have only existed for a few years.
