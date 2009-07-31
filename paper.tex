@@ -588,7 +588,7 @@ This is the fraction of the original ``number'' of possible values that remain a
 
 \section{Discussion}\sec{discussion}
 
-Our results show that we can predict the packet size distribution, inter-packet interval distribution, and packet count distribution of flows from only a handful of initial packets of each flow.
+The results demonstrate that we can predict the packet size distribution, inter-packet interval distribution, and packet count distribution of flows from only a handful of initial packets of each flow.
 Specifically, we have used five initial packets to predict these distributions with between 70\% and 90\% accuracy across a wide variety of network traces.
 Moreover, about half of the time, we can reduce our uncertainty about the number of packets that flows will have by 80\% or more.
 Immediate applications of this ability to accurately predict individual flow behaviors abound.
@@ -615,7 +615,7 @@ In our model recovery procedure, we use a subspace segmentation algorithm publis
 All of these techniques are still quite immature:
 New \caps{NMF} algorithms have been regularly proposed since Lee and Seung's seminal paper in 2001.
 Their algorithms are still the most well-known, and often the most reliable despite their various shortcomings~\cite{Langville06}.
-they will only improve over time, yielding even better recovery of the model parameters.
+These algorithms will only improve over time, yielding better recovery of model parameters.
 Such improvements will immediately improve the performance of the prediction methods employed in this paper.
 
 % Part of the reason the model of flow generation as mixtures of a basic set of behaviors is not obvious and has not previously been noted is likely that with convex linear combinations, so many different combinations can be created.
