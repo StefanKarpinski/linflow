@@ -465,7 +465,7 @@ This distance serves as a measure of each predictor's overall error rate.
 }
 \fig{cdf}
 \end{center}
-\vspace{-1.5em}
+\vspace{-1.6em}
 \end{figure*}
 
 % It seems wise at this point to address the nature of prediction for highly nondeterministic phenomena like network traffic.
@@ -482,13 +482,13 @@ When compared with a specific outcome, such a prediction cannot be said to be un
 To test the quality of a predicted distribution as compared with a sample of values which may or may not come from that distribution, we use the single-sample Kolmogorov-Smirnov (K-S) ``goodness-of-fit'' test~\cite{Feller68}.
 The K-S test compares the cumulative distribution function (\caps{CDF}) of a theoretical distribution with the empirical cumulative distribution function of the sample.
 The test uses the largest absolute difference between the \caps{CDF}s as a statistic to measure how plausible it is that the sample was drawn from the hypothesized distribution.
-The K-S statistic can be transformed into a p-value:
-the probability of obtaining a result at least as extreme as the observed result, assuming that the sample really did come from the theoretical distribution.
+The K-S statistic is transformed into a p-value:
+the probability of obtaining a result as extreme as observed, assuming the sample really came from the hypothesized distribution.
 
-\newfootnote{\ksidealnote}{If the K-S test were ideal, this pragmatic baseline would in fact be uniform. The fact that it is not demonstrates the imperfection of the K-S test.}
+\newfootnote{\ksidealnote}{If the K-S test were perfect, the pragmatic baseline would be uniform. The fact that it is not demonstrates the imperfection of the K-S test.}
 
-We evaluate the quality of our packet size and inter-packet interval distribution predictions by exampining the distribution of K-S p-values for the predicted distribution versus the observed sample.
-In theory, if the predictions are all correct, the p-values should be uniformly distributed on the interval [0,1].
+We evaluate the quality of our packet size and inter-packet interval distribution predictions by examining the distribution of K-S p-values for the predicted distribution versus the observed sample.
+In theory, if the predictions are correct, the p-values should be uniformly distributed on the interval [0,1].
 In practice, however, the K-S test is not perfect, and its p-values are not uniform.
 Instead of comparing predictions to the nonexistent theoretical ideal, we use a more pragmatic ideal as a baseline:
 p-values of samples that are actually drawn from the predicted distributions.
@@ -496,20 +496,20 @@ We measure quality of predictions by how much worse that this ideal the predicti
 
 \Figure{cdf} shows selected p-value \caps{CDF}s for our predicted distributions compared to the ideal baseline.
 For comparison, we also show the results for two simplistic prediction techniques.
-The first alternative---``mean''---always predicts the average behavior of the entire training trace.
+The first alternative, ``mean,'' always predicts the average behavior of the entire training trace.
 This does not perform as badly as one might think it would:
-always guessing the mean is not an abysmal failure.
-The second alternative---``self''---predicts the behavior that has already been seen.
+always guessing the average is not an abysmal failure.
+The second alternative, ``self,'' predicts the behavior that has already been seen.
 % This is the best guess one can make about a flow, without having been trained on any other flows:
 % just guess that it will keep doing what it has already done.
 
-A na\"ive point-measure of the error of a prediction technique is the rate at which it passes the K-S test at a predetermined significance level, such as 1\% or 5\%, as compred to the ideal.
+A na\"ive point-measure of the error of these predictions is the rate at which they fail the K-S test at a fixed significance level, such as 1\% or 5\%, as compared to the ideal.
 This is equivalent to measuring the distance above the ideal \caps{CDF} at the 0.01 or 0.05 p-value mark.
 This measure of error is na\"ive because these traditional significance levels are intentionally highly conservative:
 they are chosen so as to incorrectly reject the null only 1\% or 5\% of the time.
-Thus they only reject very bad predictions.
+Thus, they only reject the worst possible predictions.
 The mean predictor makes a perfect example:
-by guessing the average behavior it actually makes relatively few really bad predictions but makes far more poor to mediocre predictions than it should, and almost no good predictions.
+by guessing the average behavior it actually makes relatively few really bad predictions but makes far more poor and mediocre predictions than it should, and very few good predictions.
 Our predictor, on the other hand, maintains a fairly steady error rate somewhat above the ideal.
 
 As a better point-measure of the quality of predictors, we propose the maximum vertical distance between its p-value \caps{CDF} and the ideal.
