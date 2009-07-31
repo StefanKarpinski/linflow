@@ -473,15 +473,15 @@ Brief reflection shows that one cannot hope to accurately predict the exact beha
 flows may exhibit the same initial behavior but subsequently behave quite differently.
 The best we can hope to do is to predict a \emph{distribution} of possible outcomes given the observed initial behavior.
 When compared with a specific outcome, such a prediction cannot be said to be unequivocally right or wrong.
-How then can we measure the quality of a predicted distribution of outcomes as compared to a single outcome?
-This subtle and difficult issue is central to our evaluation methodology.
+% How then can we measure the quality of a predicted distribution of outcomes as compared to a single outcome?
+% This subtle and difficult issue is central to our evaluation methodology.
 % In what follows, we have performed prediction from observing only five initial packets from each flow.
 
 % To compare the predicted distributions of packet sizes and inter-packet intervals against the observed distributions, we use the most common ``goodness-of-fit'' test:
 
-To evaluate the quality of predicted distributions as compared with a sample that may or may not come from that distribution, we use the single-sample Kolmogorov-Smirnov (K-S) ``goodness-of-fit'' test~\cite{Feller68}.
-The K-S test compares the cumulative distribution function (\caps{CDF}) of a theoretical distribution with the empirical cumulative distribution function of a sample of values.
-The test uses the largest absolute difference between the two \caps{CDF}s as a statistic to measure how plausible it is that the sample was drawn from the theoretical distribution.
+To test the quality of a predicted distribution as compared with a sample of values which may or may not come from that distribution, we use the single-sample Kolmogorov-Smirnov (K-S) ``goodness-of-fit'' test~\cite{Feller68}.
+The K-S test compares the cumulative distribution function (\caps{CDF}) of a theoretical distribution with the empirical cumulative distribution function of the sample.
+The test uses the largest absolute difference between the \caps{CDF}s as a statistic to measure how plausible it is that the sample was drawn from the hypothesized distribution.
 The K-S statistic can be transformed into a p-value:
 the probability of obtaining a result at least as extreme as the observed result, assuming that the sample really did come from the theoretical distribution.
 
