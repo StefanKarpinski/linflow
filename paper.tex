@@ -354,23 +354,23 @@ Two are essential for us:
 The algorithm has one parameter:
 the maximum allowable distortion of the data.
 We follow the authors when applying the algorithm to \caps{SVD} data and use $\varepsilon^2 = 1$.
-The result of this stage is a segmentation of the data into classes of rows, precisely as our hypothesized model requires.
+The result of this stage is a segmentation of the $q_i$ into classes associated with structures, precisely as our hypothesized model requires.
 
 \subsubsection{Subspace Factorization}\sec{subspace-factorization}
 
 \newfootnote{\svdnnnote}{The first singular vector of a nonnegative matrix is guaranteed to be nonnegative, but the other singular vectors will have mixed sign.}
 
-The next step towards recovering the structure of the hypothesized model is to determine the hull points of each linear substructure.
-We have determined, as well as we can, which $q_i$ belong to the same structures.
+The next step towards recovering the structure of the hypothesized model is to determine the hull points of each linear structure.
+In the previous step, we have determined, as well as we can, which $q_i$ belong to the same structures.
 Now we must determine the vertices, $p_j$, which generate these structures.
 We can use \caps{SVD} to determine the most prominent linear components of each structure, but \caps{SVD} will give us vectors of mixed sign.\svdnnnote
 Since negative probability distributions are meaningless, these do not give us a plausible recovery of our model.
 We must turn to other techniques to recover possible vectors for the $p_j$.
 
 In essence, what we have is a nonnegative matrix factorization (\caps{NMF}) problem:
-if $Q_*$ is a sub-matrix of rows in the same structure class, we want to find nonnegative matrices, $W_*$ and $P_*$, such that $Q_* \approx W_* P_*$.~
+if $Q_*$ is a sub-matrix of rows in the same structure class, we want to find nonnegative matrices, $W_*$ and $P_*$, such that $Q_* \approx W_* P_*$.
 % We have the additional constraint that $W_*$ and $P_*$ have unit-sum rows, but that can easily be guaranteed since 
-$P$ is a vertical concatenation of the $P_*$ matrices, while $W$ is a direct sum of $W_*$ matrices.
+Large $P$ is a vertical concatenation of these $P_*$ matrices, while $W$ is row-permutation of the direct sum of $W_*$ matrices.
 Many \caps{NMF} algorithms have been proposed since Lee and Seung published the first~\cite{Lee01}.
 We use Kim and Park's alternating non-negative least squares (\caps{ANLS}) algorithm~\cite{Kim08:anls} first for its rapid initial convergence, but refine the result using Lee and Seung's Euclidean algorithm.
 
@@ -383,7 +383,7 @@ Use cluster membership from this step to combine the original data, leaving only
 These rows provide a ``denoised'' set of nonnegative spanning vectors that estimate the true low-dimensional subspace from which the data were sampled.
 Finally, we find the intersection of this subspace with the standard simplex in $\R^n$.\cddnote
 This step gives us a set of nonnegative vertices geometrically guaranteed to contain all of the estimated low-dimensional subspace.
-These vectors are used to initialize the \caps{NMF} algorithms, yielding extremely good factorization for small substructures.
+These vectors are used to initialize the \caps{NMF} algorithms, yielding extremely good factorization for small structures.
 
 \subsection{Flow Behavior Prediction}\sec{flow-behavior-prediction}
 
