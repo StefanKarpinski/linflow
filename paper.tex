@@ -618,6 +618,17 @@ Their algorithms are still the most well-known, and often the most reliable desp
 These algorithms will only improve over time, yielding better recovery of model parameters.
 Such improvements will immediately improve the performance of the prediction methods employed in this paper.
 
+We are not the first researchers to apply linear techniques to the behavior of network traffic.
+Lakhina~\emph{et~al.}~\cite{Lakhina04} apply principal component analysis (\caps{PCA})---which is computationally equivalent to \caps{SVD}---to the aggregate packet count traversing between ingress and egress points in Internet transit networks over time.
+Their purpose for this application is to detect network traffic anomalies, but in the process, they introduce the concept of ``eigenflows'':
+the principal components (\emph{c.f.} singular vectors) of aggregate traffic time series.
+De Oliveira~\emph{et~al.}~\cite{DeOliveira06} further the application to \caps{PCA} to ingress-egress aggregate traffic volume, which the literature terms ``origin-destination flows,'' by classifying the principal components into three classes:
+periodic components, peaked components, and noise components.
+The same sorts of analysis have be extended by several other researchers~\cite{Babiarz06,Juva08}.
+While some of the techniques are similar, such as \caps{SVD} and \caps{PCA}, and the terminology seems suggests similarity---all talk about ``flows''---the reality is that this research is a significant departure.
+These earlier approaches analyze and forecast aggregate traffic volume in transit networks, while our research predicts the behaviors of individual flows, in the sense of a series of packets sharing a ``5-tuple,'' rather than the transit network ``origin-destination'' pair sense.
+While understanding aggregate traffic behavior in core networks is certainly useful, we believe that an even broader application exists for the detailed individual flow behavior model we propose and provide evidence for here.
+
 % Part of the reason the model of flow generation as mixtures of a basic set of behaviors is not obvious and has not previously been noted is likely that with convex linear combinations, so many different combinations can be created.
 % Moreover, the analytical tools to extract this structure have only existed for a few years.
 % In our model recovery procedure, we use a subspace segmentation algorithm published in 2007~\cite{Ma07}, two \caps{NMF} algorithms published in 2001 and 2008, respectively~\cite{Lee01,Kim08:anls}, and a low-rank \caps{NMF} initialization technique published for the first time here.
@@ -625,13 +636,13 @@ Such improvements will immediately improve the performance of the prediction met
 % they will only improve over time, yielding even better recovery of the model parameters.
 % Such improvements will immediately improve the performance of the prediction methods employed in this paper.
 
-It is our hope and belief that this model of flow behavior will provide future insights into other aspects of network traffic modeling:
+It is our hope and belief that our model of flow behavior will provide future insights into other aspects of network traffic modeling:
 in particular traffic classification and realistic workload generation.
 The recovered model used in this paper is very close to providing a usable model for traffic generation already.
 The largest missing piece is a model for generating realistic weight matrices.
 With realistic basic behavior matrices extracted from traces and a means of generating realistic weight matrices, we have immediately a model for generating realistic traffic traces.
-Earlier research has show that it is sufficient for simulation purposes to generate flows with realistic packet size distributions, inter-packet interval distributions, and packet counts by repeatedly sampling packets from these distributions~\cite{Karpinski07:realism,Karpinski07:cbr-failure}.
-If such applications based on this flow behavior model or other similar ones prove as fruitful as the application of flow behavior prediction, that will provide further evidence of the effectiveness and validity of our proposed model.
+Earlier research has show that it is sufficient for simulation purposes to generate flows with realistic packet size distributions, inter-packet interval distributions, and packet counts, repeatedly sampling packets from these distributions~\cite{Karpinski07:realism,Karpinski07:cbr-failure}.
+If such applications based on this flow behavior model or other similar ones prove as fruitful as the present application to flow behavior prediction, those results will provide further evidence of the effectiveness and validity of our proposed model.
 
 % TODO: mention the two dimension structure assumption.
 
